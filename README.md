@@ -1,0 +1,10 @@
+pandas
+numpy
+matplotlib
+seaborn
+plotly
+geopandas
+jupyter
+dash
+openpyxl
+requests
