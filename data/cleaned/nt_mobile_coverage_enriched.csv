@@ -1,0 +1,189 @@
+site_name,site_type,population,macro_cell,small_cell,proximity_to_cell,provider,latitude,longitude,has_macro_cell,has_small_cell,has_proximity_cell,coverage_count,coverage_type,remoteness,nbn_fixedline_2024,nearest_mbsp_distance_km,nearest_mbsp_id,nearest_mbsp_location,nearest_mbsp_status,mbsp_within_20km
+ADELAIDE RIVER,VILLAGE,317.0,YES,,,OPTUS/TELSTRA,-13.2378,131.104729999999,True,False,False,1,Macro Cell,Remote Australia,False,28.35,MBSP2-NT-005,Chinner Road,Complete,False
+AILERON STATION,HIGHWAY,,,,YES,OPTUS/TELSTRA,-22.5,133.245,False,False,True,1,Proximity to Cell,Very Remote Australia,False,114.68,MBSP2-NT-008,Gem Tree,Complete,False
+ALAMIRRA,COMMUNITY,5.0,,,YES,TELSTRA,-11.067,132.528,False,False,True,1,Proximity to Cell,Very Remote Australia,False,10.3,MBSP-NT-003,Minjilang,Complete,True
+ALI CURUNG,COMMUNITY,394.0,YES,,,TELSTRA,-21.0033299999999,134.406939999999,True,False,False,1,Macro Cell,Very Remote Australia,False,25.21,MBSP7-NT-003,Murray Downs (Imangara),In Progress,False
+ALPURRURULAM,COMMUNITY,350.0,YES,,,TELSTRA,-20.9841699999999,137.847489999999,True,False,False,1,Macro Cell,Very Remote Australia,False,144.04,MBSP4-NT-010,Tobermorey (PIP),Complete,False
+AMOONGUNA,COMMUNITY,229.0,,,YES,OPTUS/TELSTRA,-23.76632,133.93599,False,False,True,1,Proximity to Cell,Remote Australia,False,54.22,MBSP4-NT-011,Trephina Gorge East (PIP),Complete,False
+AMPILATWATJA,COMMUNITY,439.0,YES,,,TELSTRA,-21.6566399999999,135.225089999999,True,False,False,1,Macro Cell,Very Remote Australia,False,97.36,MBSP7-NT-003,Murray Downs (Imangara),In Progress,False
+ANGATYEPE,COMMUNITY,13.0,,,YES,TELSTRA,-23.745,133.7275,False,False,True,1,Proximity to Cell,Remote Australia,False,64.8,MBSP4-NT-013,Rainbow Valley,Complete,False
+ANGURUGU,COMMUNITY,883.0,YES,,,TELSTRA,-13.9822399999999,136.460569999999,True,False,False,1,Macro Cell,Very Remote Australia,False,90.6,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+ARLPARRA,COMMUNITY,59.0,YES,,,TELSTRA,-22.0877899999999,134.77476,True,False,False,1,Macro Cell,Very Remote Australia,False,102.81,MBSP7-NT-003,Murray Downs (Imangara),In Progress,False
+ARMORRAN,COMMUNITY,8.0,,,YES,TELSTRA,-11.75575,133.38142,False,False,True,1,Proximity to Cell,Very Remote Australia,False,87.63,MBSP5-NT-003,Cahills Crossing,Complete,False
+ARRILLHJERE,COMMUNITY,5.0,,,YES,TELSTRA,-23.77981,133.62608,False,False,True,1,Proximity to Cell,Remote Australia,False,56.16,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+ATNARARA,COMMUNITY,53.0,,,YES,TELSTRA,-22.02622,134.78721,False,False,True,1,Proximity to Cell,Very Remote Australia,False,97.01,MBSP7-NT-003,Murray Downs (Imangara),In Progress,False
+ATITJERE,COMMUNITY,157.0,YES,,,TELSTRA,-22.9843,134.9341,True,False,False,1,Macro Cell,Very Remote Australia,False,58.21,MBSP4-NT-001,Arltunga Vc (PIP),Complete,False
+AURORA KAKADU,TOURISM,,,,YES,OPTUS,-12.676,132.48,False,False,True,1,Proximity to Cell,Remote Australia,False,58.87,MBSP5-NT-003,Cahills Crossing,Complete,False
+BARDALUMBA,COMMUNITY,11.0,,,YES,TELSTRA,-13.82445,136.4489,False,False,True,1,Proximity to Cell,Very Remote Australia,False,73.49,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+BARUNGA,COMMUNITY,337.0,YES,,,TELSTRA,-14.5236299999999,132.86668,True,False,False,1,Macro Cell,Very Remote Australia,False,61.19,MBSP5-NT-001,12 Mile Campground,Complete,False
+BARROW CREEK,HIGHWAY,,YES,YES,,OPTUS/TELSTRA,-21.531,133.889,True,True,False,2,Macro Cell + Small Cell,Very Remote Australia,False,11.44,MBSP5-NT-011,Tara Community,Complete,True
+BATCHELOR,VILLAGE,396.0,YES,,,OPTUS/TELSTRA,-13.0462899999999,131.028829999999,True,False,False,1,Macro Cell,Remote Australia,False,14.14,MBSP2-NT-005,Chinner Road,Complete,True
+BELYUEN,COMMUNITY,150.0,YES,,,TELSTRA,-12.5386,130.6999,True,False,False,1,Macro Cell,Remote Australia,False,32.32,MBSP2-NT-003,Bynoe,Complete,False
+BESWICK,COMMUNITY,542.0,YES,,,TELSTRA,-14.5548,133.1142,True,False,False,1,Macro Cell,Very Remote Australia,False,45.87,MBSP5-NT-001,12 Mile Campground,Complete,False
+BINJARI,COMMUNITY,240.0,,,YES,OPTUS/TELSTRA,-14.5502,132.1815,False,False,True,1,Proximity to Cell,Remote Australia,False,41.38,MBSP4-NT-005,Edith Falls (PIP),Complete,False
+BLACKWATER,COMMUNITY,30.0,,,YES,TELSTRA,-23.26181,131.89688,False,False,True,1,Proximity to Cell,Very Remote Australia,False,63.29,MBSP-NT-004,Mt Liebig,Complete,False
+BODIA,COMMUNITY,29.0,,,YES,TELSTRA,-12.07688,134.89628,False,False,True,1,Proximity to Cell,Very Remote Australia,False,190.9,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+BORROLOOLA,COMMUNITY,755.0,YES,,,TELSTRA,-16.0676,136.3069,True,False,False,1,Macro Cell,Very Remote Australia,False,24.29,MBSP7-NT-002,King Ash Bay,In Progress,False
+BRUMBY PLAINS,COMMUNITY,5.0,,YES,,TELSTRA,-17.053,129.01,False,True,False,1,Small Cell,Very Remote Australia,False,129.37,MBSP5-NT-006,Keep River NP 2,Complete,False
+BULLA,COMMUNITY,73.0,YES,,,TELSTRA,-15.765,130.039,True,False,False,1,Macro Cell,Very Remote Australia,False,99.84,MBSP5-NT-005,Keep River NP 1,Complete,False
+BULMAN,COMMUNITY,160.0,YES,,,TELSTRA,-13.6652899999999,134.333349999999,True,False,False,1,Macro Cell,Very Remote Australia,False,118.83,MBSP7-NT-005,Urapunga,In Progress,False
+BUNHANURA,COMMUNITY,7.0,,,YES,TELSTRA,-12.37449,135.72221,False,False,True,1,Proximity to Cell,Very Remote Australia,False,106.86,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+COOINDA LODGE,TOURISM,,YES,,,TELSTRA,-12.905,132.522,True,False,False,1,Macro Cell,Remote Australia,False,71.22,MBSP5-NT-003,Cahills Crossing,Complete,False
+CURTAIN SPRINGS ROADHOUSE,HIGHWAY,,,YES,,OPTUS/TELSTRA,-25.314,131.756,False,True,False,1,Small Cell,Very Remote Australia,False,84.36,MBSP-NT-002,Imanpa,Complete,False
+DAGURAGU,COMMUNITY,195.0,,,YES,TELSTRA,-17.4005899999999,130.80491,False,False,True,1,Proximity to Cell,Very Remote Australia,False,103.03,MBSP2-NT-016,Lingara,Complete,False
+DALY WATERS,VILLAGE,,YES,YES,,OPTUS/TELSTRA,-16.2533299999999,133.36932,True,True,False,2,Macro Cell + Small Cell,Very Remote Australia,False,47.63,MBSP4-NT-004,Dunmurra Wayside Inn (PIP),Complete,False
+DEVILS MARBLES HOTEL,TOURISM,,,YES,,OPTUS,-20.641,134.223,False,True,False,1,Small Cell,Very Remote Australia,False,0.03,MBSP2-NT-006,Devils Marbles Hotel,Complete,True
+DHAMBALA,COMMUNITY,9.0,,,YES,TELSTRA,-12.0526,135.5609,False,False,True,1,Proximity to Cell,Very Remote Australia,False,146.62,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+DHIPIRRINJURA,COMMUNITY,30.0,,,YES,TELSTRA,-12.24806,135.09757,False,False,True,1,Proximity to Cell,Very Remote Australia,False,161.9,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+DHUDUPU,COMMUNITY,12.0,,,YES,TELSTRA,-12.0033,135.5692,False,False,True,1,Proximity to Cell,Very Remote Australia,False,150.98,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+DJIRRBIYAK,COMMUNITY,30.0,,,YES,OPTUS/TELSTRA,-12.729,132.764,False,False,True,1,Proximity to Cell,Remote Australia,False,39.7,MBSP5-NT-003,Cahills Crossing,Complete,False
+DONS BORE,COMMUNITY,8.0,,,YES,TELSTRA,-22.26233,131.92027,False,False,True,1,Proximity to Cell,Very Remote Australia,False,128.52,MBSP-NT-004,Mt Liebig,Complete,False
+DUNMARRA ROADHOUSE,HIGHWAY,,,YES,,OPTUS/TELSTRA,-16.679,133.412,False,True,False,1,Small Cell,Very Remote Australia,False,0.1,MBSP4-NT-004,Dunmurra Wayside Inn (PIP),Complete,True
+EIGHT MILE,COMMUNITY,6.0,,,YES,TELSTRA,-23.886,132.682,False,False,True,1,Proximity to Cell,Very Remote Australia,False,19.82,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+ELITJIA,COMMUNITY,13.0,,,YES,OPTUS/TELSTRA,-23.77677,133.61583,False,False,True,1,Proximity to Cell,Remote Australia,False,55.13,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+ELLIOTT,VILLAGE,244.0,YES,YES,,OPTUS/TELSTRA,-17.5527,133.5408,True,True,False,2,Macro Cell + Small Cell,Very Remote Australia,False,89.22,MBSP7-NT-004,Renner Springs,In Progress,False
+ENGAWALA,COMMUNITY,146.0,,YES,,TELSTRA,-22.8025699999999,134.455469999999,False,True,False,1,Small Cell,Very Remote Australia,False,28.67,MBSP2-NT-008,Gem Tree,Complete,False
+ERLDUNDA,HIGHWAY,,YES,YES,,OPTUS/TELSTRA,-25.197,133.2,True,True,False,2,Macro Cell + Small Cell,Very Remote Australia,False,63.92,MBSP-NT-002,Imanpa,Complete,False
+FIVE MILE,COMMUNITY,5.0,,,YES,TELSTRA,-23.91848,132.84834,False,False,True,1,Proximity to Cell,Very Remote Australia,False,18.86,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+FLORENCE FALLS,TOURISM,,,YES,,OPTUS,-13.109,130.793,False,True,False,1,Small Cell,Remote Australia,False,0.05,MBSP2-NT-007,Florence Falls,Complete,True
+GALAWARRA,COMMUNITY,16.0,,,YES,TELSTRA,-12.0444,135.59373,False,False,True,1,Proximity to Cell,Very Remote Australia,False,145.7,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+GALAWDJAPIN,COMMUNITY,12.0,,,YES,TELSTRA,-12.28695,134.81751,False,False,True,1,Proximity to Cell,Very Remote Australia,False,183.52,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+GALIWINKU,COMMUNITY,2027.0,YES,,,TELSTRA,-12.0235,135.5664,True,False,False,1,Macro Cell,Very Remote Australia,False,149.15,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+GAPUWIYAK,COMMUNITY,645.0,YES,,,TELSTRA,-12.5032199999999,135.805869999999,True,False,False,1,Macro Cell,Very Remote Australia,False,89.91,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+GARANYDJIRR,COMMUNITY,6.0,,,YES,TELSTRA,-12.28204,135.02095,False,False,True,1,Proximity to Cell,Very Remote Australia,False,165.92,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+GEM TREE PARK,TOURISM,,,YES,,OPTUS,-22.968,134.243,False,True,False,1,Small Cell,Very Remote Australia,False,0.19,MBSP2-NT-008,Gem Tree,Complete,True
+GLEN HELEN HOMESTEAD,TOURISM,,,YES,,OPTUS,-23.685,132.672,False,True,False,1,Small Cell,Very Remote Australia,False,19.51,MBSP5-NT-007,Redbank Gorge,Complete,True
+GUNBALANYA,COMMUNITY,1008.0,YES,,,TELSTRA,-12.324,133.056,True,False,False,1,Macro Cell,Remote Australia,False,15.57,MBSP5-NT-003,Cahills Crossing,Complete,True
+GUNYANGARA,COMMUNITY,209.0,,,YES,OPTUS/TELSTRA,-12.21542,136.70569,False,False,True,1,Proximity to Cell,Very Remote Australia,False,121.11,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+GUTJANGAN,COMMUNITY,23.0,,,YES,TELSTRA,-12.0839,136.80857,False,False,True,1,Proximity to Cell,Very Remote Australia,False,139.16,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+HERMANNSBURG,COMMUNITY,491.0,YES,,,TELSTRA,-23.9427,132.7787,True,False,False,1,Macro Cell,Very Remote Australia,False,13.22,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+HINGSTONS PLACE,COMMUNITY,7.0,,,YES,OPTUS/TELSTRA,-19.61773,134.19703,False,False,True,1,Proximity to Cell,Very Remote Australia,False,93.47,MBSP7-NT-001,Banka Banka,In Progress,False
+HUNTERS CAMP,COMMUNITY,5.0,,,YES,OPTUS/TELSTRA,-12.65,132.829,False,False,True,1,Proximity to Cell,Remote Australia,False,28.54,MBSP5-NT-003,Cahills Crossing,Complete,False
+IMANPA,COMMUNITY,106.0,YES,,,TELSTRA,-25.1305099999999,132.569989999999,True,False,False,1,Macro Cell,Very Remote Australia,False,0.17,MBSP-NT-002,Imanpa,Complete,True
+IMPORTNA,COMMUNITY,5.0,,,YES,TELSTRA,-23.94048,132.74341,False,False,True,1,Proximity to Cell,Very Remote Australia,False,12.87,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+INBINA ATWATYE,COMMUNITY,10.0,,,YES,TELSTRA,-23.741,133.713,False,False,True,1,Proximity to Cell,Remote Australia,False,65.04,MBSP4-NT-013,Rainbow Valley,Complete,False
+INKWELAYE,COMMUNITY,30.0,,,YES,TELSTRA,-22.07951,134.83153,False,False,True,1,Proximity to Cell,Very Remote Australia,False,104.3,MBSP7-NT-003,Murray Downs (Imangara),In Progress,False
+IPALALA,COMMUNITY,6.0,,,YES,TELSTRA,-23.92556,132.67808,False,False,True,1,Proximity to Cell,Very Remote Australia,False,15.83,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+IRRILTYERE (A),COMMUNITY,7.0,,,YES,OPTUS/TELSTRA,-23.75129,133.69467,False,False,True,1,Proximity to Cell,Remote Australia,False,63.27,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+IRRILTYERE (B),COMMUNITY,8.0,,,YES,OPTUS/TELSTRA,-23.76105,133.68564,False,False,True,1,Proximity to Cell,Remote Australia,False,62.29,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+ITCHY KOO PARK,COMMUNITY,36.0,,,YES,OPTUS/TELSTRA,-23.76667,133.65816,False,False,True,1,Proximity to Cell,Remote Australia,False,59.47,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+ITEYEPINTYE,COMMUNITY,21.0,,,YES,TELSTRA,-23.76466,133.59994,False,False,True,1,Proximity to Cell,Remote Australia,False,53.56,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+ITPERLYENGE,COMMUNITY,11.0,,,YES,TELSTRA,-23.76361,133.61103,False,False,True,1,Proximity to Cell,Remote Australia,False,54.69,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+JEMELKE,COMMUNITY,8.0,,,YES,OPTUS/TELSTRA,-21.53389,133.87473,False,False,True,1,Proximity to Cell,Very Remote Australia,False,12.95,MBSP5-NT-011,Tara Community,Complete,True
+JILKMINGGAN,COMMUNITY,254.0,,YES,,TELSTRA,-14.9530599999999,133.3,False,True,False,1,Small Cell,Very Remote Australia,False,8.49,MBSP5-NT-001,12 Mile Campground,Complete,True
+KALKARINDJI,COMMUNITY,311.0,YES,,,TELSTRA,-17.4467499999999,130.83212,True,False,False,1,Macro Cell,Very Remote Australia,False,108.59,MBSP2-NT-016,Lingara,Complete,False
+KALTUKATJARA,COMMUNITY,195.0,YES,,,TELSTRA,-24.87611,129.07916,True,False,False,1,Macro Cell,Very Remote Australia,False,255.62,MBSP2-NT-009,Kings Canyon Resort,Complete,False
+KAPORILYA,COMMUNITY,5.0,,,YES,TELSTRA,-23.94,132.72,False,False,True,1,Proximity to Cell,Very Remote Australia,False,13.08,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+KINGS CANYON RESORT,TOURISM,,,YES,,OPTUS/TELSTRA,-24.248,131.512,False,True,False,1,Small Cell,Very Remote Australia,False,0.34,MBSP2-NT-009,Kings Canyon Resort,Complete,True
+KINGS CREEK STATION,TOURISM,,,YES,,OPTUS/TELSTRA,-24.405,131.817,False,True,False,1,Small Cell,Very Remote Australia,False,0.1,MBSP2-NT-010,Kings Creek Station,Complete,True
+KINTORE,COMMUNITY,381.0,YES,,,TELSTRA,-23.27591,129.387249999999,True,False,False,1,Macro Cell,Very Remote Australia,False,193.1,MBSP-NT-004,Mt Liebig,Complete,False
+KULGERA,HIGHWAY,,,YES,,OPTUS/TELSTRA,-25.84084,133.300479999999,False,True,False,1,Small Cell,Very Remote Australia,False,107.93,MBSP-NT-002,Imanpa,Complete,False
+KUNGARREWARL,COMMUNITY,5.0,,,YES,TELSTRA,-12.34346,133.05617,False,False,True,1,Proximity to Cell,Very Remote Australia,False,14.07,MBSP5-NT-003,Cahills Crossing,Complete,True
+KUY,COMMUNITY,5.0,,,YES,TELSTRA,-14.03546,129.59784,False,False,True,1,Proximity to Cell,Very Remote Australia,False,151.76,MBSP2-NT-015,Wangi Falls,Complete,False
+KWALE KWALE,COMMUNITY,25.0,,,YES,OPTUS/TELSTRA,-23.76972,133.57451,False,False,True,1,Proximity to Cell,Remote Australia,False,50.95,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+KYBROOK FARM,COMMUNITY,52.0,,,YES,TELSTRA,-13.8631599999999,131.821959999999,False,False,True,1,Proximity to Cell,Remote Australia,False,51.54,MBSP5-NT-012,Douglas Daly Holiday Park,Complete,False
+LAJAMANU,COMMUNITY,605.0,YES,,,TELSTRA,-18.3358399999999,130.638339999999,True,False,False,1,Macro Cell,Very Remote Australia,False,205.59,MBSP2-NT-016,Lingara,Complete,False
+LARRIMAH,HIGHWAY,,,YES,,OPTUS,-15.574,133.215,False,True,False,1,Small Cell,Very Remote Australia,False,0.02,MBSP4-NT-007,Larrimah (PIP),Complete,True
+LIZARD BORE,COMMUNITY,5.0,,,YES,TELSTRA,-23.30034,131.13465,False,False,True,1,Proximity to Cell,Very Remote Australia,False,15.45,MBSP-NT-004,Mt Liebig,Complete,True
+LUL-TJU,COMMUNITY,5.0,,,YES,TELSTRA,-18.37671,130.59313,False,False,True,1,Proximity to Cell,Very Remote Australia,False,210.2,MBSP2-NT-016,Lingara,Complete,False
+LYILYALANAMA,COMMUNITY,5.0,,,YES,TELSTRA,-23.94724,132.74474,False,False,True,1,Proximity to Cell,Very Remote Australia,False,12.13,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+MALKALA,COMMUNITY,71.0,,,YES,TELSTRA,-13.8914,136.44224,False,False,True,1,Proximity to Cell,Very Remote Australia,False,80.36,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+MANINGRIDA,COMMUNITY,2297.0,YES,,,TELSTRA,-12.0508499999999,134.22363,True,False,False,1,Macro Cell,Very Remote Australia,False,143.69,MBSP5-NT-003,Cahills Crossing,Complete,False
+MANDEDJKADJANG,COMMUNITY,10.0,,,YES,TELSTRA,-12.26454,134.03056,False,False,True,1,Proximity to Cell,Very Remote Australia,False,117.84,MBSP5-NT-003,Cahills Crossing,Complete,False
+MANYALLALUK,COMMUNITY,97.0,YES,,,TELSTRA,-14.2664899999999,132.827969999999,True,False,False,1,Macro Cell,Very Remote Australia,False,69.85,MBSP4-NT-005,Edith Falls (PIP),Complete,False
+MARLINJA,COMMUNITY,36.0,,,YES,TELSTRA,-17.37111,133.40305,False,False,True,1,Proximity to Cell,Very Remote Australia,False,76.89,MBSP4-NT-004,Dunmurra Wayside Inn (PIP),Complete,False
+MARY RIVER ROADHOUSE,TOURISM,,,YES,,OPTUS/TELSTRA,-13.605,132.219,False,True,False,1,Small Cell,Remote Australia,False,0.17,MBSP2-NT-012,Mary River Roadhouse,Complete,True
+MATARANKA,VILLAGE,384.0,YES,YES,,OPTUS/TELSTRA,-14.9243499999999,133.067949999999,True,True,False,2,Macro Cell + Small Cell,Very Remote Australia,False,16.77,MBSP5-NT-001,12 Mile Campground,Complete,True
+MERRAL NTARRAKALA,COMMUNITY,5.0,,,YES,TELSTRA,-23.91418,132.82865,False,False,True,1,Proximity to Cell,Very Remote Australia,False,18.18,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+MILIKAPITI,COMMUNITY,390.0,YES,,,TELSTRA,-11.4216699999999,130.67418,True,False,False,1,Macro Cell,Very Remote Australia,False,103.71,MBSP5-NT-004,Gunn Point,Complete,False
+MILINGIMBI,COMMUNITY,1025.0,YES,,,TELSTRA,-12.1036,134.9201,True,False,False,1,Macro Cell,Very Remote Australia,False,187.0,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+MINJILANG,COMMUNITY,234.0,YES,,,TELSTRA,-11.1507,132.578599999999,True,False,False,1,Macro Cell,Very Remote Australia,False,0.6,MBSP-NT-003,Minjilang,Complete,True
+MINYERRI,COMMUNITY,603.0,YES,,,TELSTRA,-15.2216,134.082099999999,True,False,False,1,Macro Cell,Very Remote Australia,False,77.18,MBSP7-NT-005,Urapunga,In Progress,False
+MOTNAS,COMMUNITY,5.0,,,YES,TELSTRA,-23.94974,132.76946,False,False,True,1,Proximity to Cell,Very Remote Australia,False,12.21,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+MOUNT BUNDEY,HIGHWAY,,YES,,,TELSTRA,-12.855,131.813,True,False,False,1,Macro Cell,Remote Australia,False,15.69,MBSP2-NT-002,Bark Hut Inn,Complete,True
+MOUNT EBENEZER,TOURISM,,,YES,YES,OPTUS/TELSTRA,-25.173,132.674,False,True,True,2,Small Cell + Proximity to Cell,Very Remote Australia,False,11.61,MBSP-NT-002,Imanpa,Complete,True
+MOUNT LIEBIG,COMMUNITY,234.0,YES,,,TELSTRA,-23.26605,131.27319,True,False,False,1,Macro Cell,Very Remote Australia,False,1.35,MBSP-NT-004,Mt Liebig,Complete,True
+MOUNT TWELLAR,COMMUNITY,17.0,,,YES,TELSTRA,-23.54198,133.62279,False,False,True,1,Proximity to Cell,Remote Australia,False,62.21,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+MUDGINBERRI,COMMUNITY,50.0,,,YES,OPTUS/TELSTRA,-12.598,132.873,False,False,True,1,Proximity to Cell,Remote Australia,False,21.2,MBSP5-NT-003,Cahills Crossing,Complete,False
+MUMUKALA,COMMUNITY,12.0,,,YES,TELSTRA,-12.611,132.666,False,False,True,1,Proximity to Cell,Remote Australia,False,37.79,MBSP5-NT-003,Cahills Crossing,Complete,False
+MURUNING,COMMUNITY,21.0,,,YES,TELSTRA,-15.675,130.485,False,False,True,1,Proximity to Cell,Very Remote Australia,False,69.24,MBSP2-NT-014,Victoria River Roadhouse,Complete,False
+MUTITJULU,COMMUNITY,426.0,YES,,YES,OPTUS/TELSTRA,-25.3523,131.066699999999,True,False,True,2,Macro Cell + Proximity to Cell,Very Remote Australia,False,129.73,MBSP2-NT-010,Kings Creek Station,Complete,False
+MYATT,COMMUNITY,75.0,,,YES,TELSTRA,-15.707,130.483,False,False,True,1,Proximity to Cell,Very Remote Australia,False,69.86,MBSP2-NT-014,Victoria River Roadhouse,Complete,False
+NADILMUK,COMMUNITY,5.0,,,YES,TELSTRA,-11.994,134.295,False,False,True,1,Proximity to Cell,Very Remote Australia,False,153.01,MBSP5-NT-003,Cahills Crossing,Complete,False
+NAUIYU,COMMUNITY,319.0,YES,,,TELSTRA,-13.7505399999999,130.688929999999,True,False,False,1,Macro Cell,Very Remote Australia,False,57.58,MBSP5-NT-008,Sandy Creek,Complete,False
+NEWCASTLE WATERS,HIGHWAY,,,YES,,TELSTRA,-17.37,133.409,False,True,False,1,Small Cell,Very Remote Australia,False,76.77,MBSP4-NT-004,Dunmurra Wayside Inn (PIP),Complete,False
+NGADUMIYERRKA,COMMUNITY,24.0,,,YES,TELSTRA,-13.82,136.456,False,False,True,1,Proximity to Cell,Very Remote Australia,False,73.28,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+NGANGALALA,COMMUNITY,55.0,,,YES,TELSTRA,-12.298,134.992,False,False,True,1,Proximity to Cell,Very Remote Australia,False,167.34,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+NGANMARRIYANGA,COMMUNITY,328.0,YES,,,TELSTRA,-14.3511099999999,129.87889,True,False,False,1,Macro Cell,Very Remote Australia,False,157.72,MBSP2-NT-015,Wangi Falls,Complete,False
+NGAYAWILLI,COMMUNITY,13.0,,,YES,TELSTRA,-11.994,135.575,False,False,True,1,Proximity to Cell,Very Remote Australia,False,151.6,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+NGUKURR,COMMUNITY,1003.0,YES,,,TELSTRA,-14.7317,134.7321,True,False,False,1,Macro Cell,Very Remote Australia,False,17.9,MBSP7-NT-005,Urapunga,In Progress,True
+NTAKARRA,COMMUNITY,5.0,,,YES,TELSTRA,-23.895,132.68,False,False,True,1,Proximity to Cell,Very Remote Australia,False,18.93,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+NTURIYA,COMMUNITY,66.0,,,YES,TELSTRA,-22.12379,133.265289999999,False,False,True,1,Proximity to Cell,Very Remote Australia,False,101.95,MBSP5-NT-011,Tara Community,Complete,False
+NUMBULWAR,COMMUNITY,675.0,YES,,,TELSTRA,-14.2791,135.7406,True,False,False,1,Macro Cell,Very Remote Australia,False,131.05,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+ORMISTON RANGER STATION,TOURISM,,,YES,,OPTUS,-23.633,132.728,False,True,False,1,Small Cell,Very Remote Australia,False,22.45,MBSP5-NT-007,Redbank Gorge,Complete,False
+PAPUNYA,COMMUNITY,389.0,YES,,,TELSTRA,-23.20306,131.9111,True,False,False,1,Macro Cell,Very Remote Australia,False,65.0,MBSP-NT-004,Mt Liebig,Complete,False
+PARADISE FARM,COMMUNITY,10.0,,,YES,TELSTRA,-12.939,132.533,False,False,True,1,Proximity to Cell,Remote Australia,False,73.33,MBSP5-NT-003,Cahills Crossing,Complete,False
+PARU,COMMUNITY,5.0,,,YES,TELSTRA,-11.75,130.646,False,False,True,1,Proximity to Cell,Very Remote Australia,False,73.92,MBSP5-NT-004,Gunn Point,Complete,False
+PAYEPERRENTYE (B),COMMUNITY,9.0,,,YES,OPTUS/TELSTRA,-23.771,133.556,False,False,True,1,Proximity to Cell,Remote Australia,False,49.06,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+PEPPIMENARTI,COMMUNITY,171.0,YES,,,TELSTRA,-14.1503,130.0763,True,False,False,1,Macro Cell,Very Remote Australia,False,127.5,MBSP2-NT-015,Wangi Falls,Complete,False
+PERTE THERRE,COMMUNITY,18.0,,,YES,OPTUS/TELSTRA,-23.758,133.646,False,False,True,1,Proximity to Cell,Remote Australia,False,58.28,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+PHILLIPSON BORE,COMMUNITY,5.0,,,YES,TELSTRA,-24.096,134.43,False,False,True,1,Proximity to Cell,Remote Australia,False,63.86,MBSP4-NT-011,Trephina Gorge East (PIP),Complete,False
+PINE CREEK,VILLAGE,142.0,YES,,,TELSTRA,-13.8227,131.8344,True,False,False,1,Macro Cell,Remote Australia,False,48.13,MBSP2-NT-012,Mary River Roadhouse,Complete,False
+PIRLANGIMPI,COMMUNITY,289.0,YES,,,TELSTRA,-11.4059,130.4172,True,False,False,1,Macro Cell,Very Remote Australia,False,119.47,MBSP5-NT-004,Gunn Point,Complete,False
+PMARA JUTUNTA,COMMUNITY,144.0,YES,,,TELSTRA,-22.2087799999999,133.430729999999,True,False,False,1,Macro Cell,Very Remote Australia,False,97.41,MBSP5-NT-011,Tara Community,Complete,False
+RAMINGINING,COMMUNITY,742.0,YES,,,TELSTRA,-12.32779,134.930009999999,True,False,False,1,Macro Cell,Very Remote Australia,False,170.86,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+RENNER SPRINGS ROADHOUSE,HIGHWAY,,,YES,,OPTUS,-18.318,133.795,False,True,False,1,Small Cell,Very Remote Australia,False,0.03,MBSP7-NT-004,Renner Springs,In Progress,True
+ROBINSON RIVER,COMMUNITY,161.0,,YES,,TELSTRA,-16.75974,136.98057,False,True,False,1,Small Cell,Very Remote Australia,False,106.11,MBSP7-NT-002,King Ash Bay,In Progress,False
+ROCKHOLE,COMMUNITY,145.0,,,YES,OPTUS/TELSTRA,-14.51935,132.18633,False,False,True,1,Proximity to Cell,Remote Australia,False,37.94,MBSP4-NT-005,Edith Falls (PIP),Complete,False
+ROSS RIVER RESORT,TOURISM,,,YES,,OPTUS,-23.591,134.49,False,True,False,1,Small Cell,Remote Australia,False,12.16,MBSP4-NT-011,Trephina Gorge East (PIP),Complete,True
+RUTJINGKA,COMMUNITY,5.0,,,YES,TELSTRA,-23.916,132.815,False,False,True,1,Proximity to Cell,Very Remote Australia,False,17.36,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+SANDY BAY,COMMUNITY,5.0,,,YES,TELSTRA,-11.207,132.58,False,False,True,1,Proximity to Cell,Very Remote Australia,False,6.61,MBSP-NT-003,Minjilang,Complete,True
+SANTA TERESA,COMMUNITY,561.0,YES,,,TELSTRA,-24.1307,134.3733,True,False,False,1,Macro Cell,Remote Australia,False,67.67,MBSP4-NT-011,Trephina Gorge East (PIP),Complete,False
+STUARTS WELL ROADHOUSE,HIGHWAY,,,YES,,OPTUS/TELSTRA,-24.339,133.458,False,True,False,1,Small Cell,Remote Australia,False,0.14,MBSP2-NT-013,Stuarts Well Roadhouse,Complete,True
+THREEWAYS ROADHOUSE,HIGHWAY,,,YES,,OPTUS,-19.436,134.208,False,True,False,1,Small Cell,Very Remote Australia,False,74.0,MBSP7-NT-001,Banka Banka,In Progress,False
+TILMOUTH WELL ROADHOUSE,HIGHWAY,,,YES,,TELSTRA,-22.809,132.599,False,True,False,1,Small Cell,Very Remote Australia,False,86.87,MBSP5-NT-007,Redbank Gorge,Complete,False
+TIMBER CREEK,VILLAGE,155.0,YES,,,TELSTRA,-15.6625,130.4804,True,False,False,1,Macro Cell,Very Remote Australia,False,69.62,MBSP2-NT-014,Victoria River Roadhouse,Complete,False
+TIPPERARY STATION,HIGHWAY,,,YES,,TELSTRA,-13.734,131.041,False,True,False,1,Small Cell,Very Remote Australia,False,34.01,MBSP5-NT-012,Douglas Daly Holiday Park,Complete,False
+TITJIKALA,COMMUNITY,186.0,YES,,,TELSTRA,-24.67389,134.075839999999,True,False,False,1,Macro Cell,Remote Australia,False,33.7,MBSP4-NT-002,Chambers Pillar (PIP),Complete,False
+TI TREE,VILLAGE,49.0,YES,,,OPTUS/TELSTRA,-22.1279,133.4171,True,False,False,1,Macro Cell,Very Remote Australia,False,91.3,MBSP5-NT-011,Tara Community,Complete,False
+TJAMANGKURRA,COMMUNITY,5.0,,,YES,TELSTRA,-23.969,132.805,False,False,True,1,Proximity to Cell,Very Remote Australia,False,11.74,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+TJINTIRTJINTIRPA,COMMUNITY,5.0,,,YES,TELSTRA,-23.285,131.271,False,False,True,1,Proximity to Cell,Very Remote Australia,False,3.45,MBSP-NT-004,Mt Liebig,Complete,True
+TNERTE,COMMUNITY,15.0,,,YES,TELSTRA,-23.747,133.72,False,False,True,1,Proximity to Cell,Remote Australia,False,64.47,MBSP4-NT-013,Rainbow Valley,Complete,False
+TNYIMIPURTA,COMMUNITY,8.0,,,YES,TELSTRA,-23.888,132.671,False,False,True,1,Proximity to Cell,Very Remote Australia,False,19.97,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+TOP SPRINGS ROADHOUSE,HIGHWAY,,,YES,,OPTUS/TELSTRA,-16.544,131.796,False,True,False,1,Small Cell,Very Remote Australia,False,123.01,MBSP2-NT-016,Lingara,Complete,False
+TWETYE (A),COMMUNITY,13.0,,,YES,TELSTRA,-23.74034,133.70539,False,False,True,1,Proximity to Cell,Remote Australia,False,64.45,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+TWETYE (B),COMMUNITY,26.0,,,YES,TELSTRA,-23.74292,133.69633,False,False,True,1,Proximity to Cell,Remote Australia,False,63.51,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+TYWENPE (A),COMMUNITY,17.0,,,YES,OPTUS/TELSTRA,-23.72634,133.72928,False,False,True,1,Proximity to Cell,Remote Australia,False,66.88,MBSP4-NT-013,Rainbow Valley,Complete,False
+TYWENPE (C),COMMUNITY,36.0,,,YES,OPTUS/TELSTRA,-23.74426,133.68787,False,False,True,1,Proximity to Cell,Remote Australia,False,62.64,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+TYWENPE (D),COMMUNITY,7.0,,,YES,OPTUS/TELSTRA,-23.7648,133.67226,False,False,True,1,Proximity to Cell,Remote Australia,False,60.91,MBSP4-NT-006,Ellery Creek Big Hole (PIP),Complete,False
+ULAMBARA,COMMUNITY,8.0,,,YES,TELSTRA,-23.27715,131.92748,False,False,True,1,Proximity to Cell,Very Remote Australia,False,66.46,MBSP-NT-004,Mt Liebig,Complete,False
+ULPANYALI,COMMUNITY,19.0,,,YES,TELSTRA,-24.23091,131.50075,False,False,True,1,Proximity to Cell,Very Remote Australia,False,2.49,MBSP2-NT-009,Kings Canyon Resort,Complete,True
+ULPUNDA,COMMUNITY,9.0,,,YES,TELSTRA,-23.9546,132.766,False,False,True,1,Proximity to Cell,Very Remote Australia,False,11.6,MBSP4-NT-008,Palm Valley (PIP),Complete,True
+UMBAKUMBA,COMMUNITY,441.0,YES,,,TELSTRA,-13.8597399999999,136.811129999999,True,False,False,1,Macro Cell,Very Remote Australia,False,96.8,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+UNDOOLYA BORE,COMMUNITY,16.0,,,YES,TELSTRA,-23.748,134.118,False,False,True,1,Proximity to Cell,Remote Australia,False,37.9,MBSP4-NT-011,Trephina Gorge East (PIP),Complete,False
+VICTORIA RIVER ROADHOUSE,HIGHWAY,,,YES,,OPTUS,-15.616,131.127,False,True,False,1,Small Cell,Very Remote Australia,False,0.27,MBSP2-NT-014,Victoria River Roadhouse,Complete,True
+WADEYE,COMMUNITY,1650.0,YES,,,TELSTRA,-14.2404,129.520499999999,True,False,False,1,Macro Cell,Remote Australia,False,173.13,MBSP2-NT-015,Wangi Falls,Complete,False
+WAKURLPU,COMMUNITY,10.0,,,YES,TELSTRA,-20.632,134.217,False,False,True,1,Proximity to Cell,Very Remote Australia,False,1.15,MBSP2-NT-006,Devils Marbles Hotel,Complete,True
+WALKER CREEK,TOURISM,,YES,,,OPTUS,-13.122,130.695,True,False,False,1,Macro Cell,Remote Australia,False,0.13,MBSP2-NT-011,Litchfield Ranger Station,Complete,True
+WALLACE ROCKHOLE,COMMUNITY,82.0,YES,,,TELSTRA,-24.1245,133.086299999999,True,False,False,1,Macro Cell,Very Remote Australia,False,0.13,MBSP-NT-005,Wallace Rockhole,Complete,True
+WANGI FALLS,TOURISM,,,YES,,OPTUS,-13.158,130.684,False,True,False,1,Small Cell,Remote Australia,False,0.91,MBSP2-NT-015,Wangi Falls,Complete,True
+WANMARRA,COMMUNITY,14.0,,,YES,TELSTRA,-24.388,131.803,False,False,True,1,Proximity to Cell,Very Remote Australia,False,2.44,MBSP2-NT-010,Kings Creek Station,Complete,True
+WARRUWI,COMMUNITY,391.0,YES,,,TELSTRA,-11.6489599999999,133.38935,True,False,False,1,Macro Cell,Very Remote Australia,False,98.35,MBSP5-NT-003,Cahills Crossing,Complete,False
+WARUMPI,COMMUNITY,5.0,,,YES,TELSTRA,-23.185,131.975,False,False,True,1,Proximity to Cell,Very Remote Australia,False,70.81,MBSP5-NT-007,Redbank Gorge,Complete,False
+WATARU,COMMUNITY,5.0,,,YES,TELSTRA,-24.859,129.059,False,False,True,1,Proximity to Cell,Very Remote Australia,False,257.1,MBSP2-NT-009,Kings Canyon Resort,Complete,False
+WEEMOL,COMMUNITY,91.0,,,YES,TELSTRA,-13.6441799999999,134.308629999999,False,False,True,1,Proximity to Cell,Very Remote Australia,False,121.71,MBSP7-NT-005,Urapunga,In Progress,False
+WIITIN,COMMUNITY,10.0,,,YES,OPTUS/TELSTRA,-19.545,134.237,False,False,True,1,Proximity to Cell,Very Remote Australia,False,86.5,MBSP7-NT-001,Banka Banka,In Progress,False
+WILGI,COMMUNITY,6.0,,,YES,TELSTRA,-11.496,132.749,False,False,True,1,Proximity to Cell,Very Remote Australia,False,43.16,MBSP-NT-003,Minjilang,Complete,False
+WOLLOGORANG,COMMUNITY,7.0,,YES,,TELSTRA,-17.218,137.989,False,True,False,1,Small Cell,Very Remote Australia,False,214.76,MBSP7-NT-002,King Ash Bay,In Progress,False
+WUNARA,COMMUNITY,5.0,,YES,,TELSTRA,-19.989,136.618,False,True,False,1,Small Cell,Very Remote Australia,False,252.95,MBSP4-NT-003,Devils Marbles (PIP),Complete,False
+WURLBU,COMMUNITY,7.0,,,YES,TELSTRA,-16.075,136.284,False,False,True,1,Proximity to Cell,Very Remote Australia,False,26.74,MBSP7-NT-002,King Ash Bay,In Progress,False
+WURRUMIYANGA,COMMUNITY,1209.0,YES,,,TELSTRA,-11.75831,130.63747,True,False,False,1,Macro Cell,Remote Australia,False,73.79,MBSP5-NT-004,Gunn Point,Complete,False
+WYCLIFFE WELL,HIGHWAY,,,YES,,OPTUS,-20.795,134.236,False,True,False,1,Small Cell,Very Remote Australia,False,17.19,MBSP2-NT-006,Devils Marbles Hotel,Complete,True
+YANUNGBI,COMMUNITY,5.0,,,YES,TELSTRA,-12.28,136.658,False,False,True,1,Proximity to Cell,Very Remote Australia,False,112.41,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+YARRALIN,COMMUNITY,250.0,YES,,,TELSTRA,-16.4484099999999,130.88279,True,False,False,1,Macro Cell,Very Remote Australia,False,25.86,MBSP2-NT-016,Lingara,Complete,False
+YARTALU YARTALU,COMMUNITY,7.0,,,YES,TELSTRA,-20.573,130.355,False,False,True,1,Proximity to Cell,Very Remote Australia,False,312.98,MBSP-NT-004,Mt Liebig,Complete,False
+YATHALAMARRA,COMMUNITY,59.0,,,YES,TELSTRA,-12.274,134.922,False,False,True,1,Proximity to Cell,Very Remote Australia,False,175.04,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+YIRRKALA,COMMUNITY,524.0,YES,,,TELSTRA,-12.2527899999999,136.89168,True,False,False,1,Macro Cell,Very Remote Australia,True,127.57,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+YUDUYUDU,COMMUNITY,10.0,,,YES,OPTUS/TELSTRA,-12.233,136.637,False,False,True,1,Proximity to Cell,Very Remote Australia,False,116.3,MBSP7-NT-007,Yilpara (Banyala),In Progress,False
+YUENDUMU,COMMUNITY,617.0,YES,,,TELSTRA,-22.2538899999999,131.795289999999,True,False,False,1,Macro Cell,Very Remote Australia,False,123.29,MBSP-NT-004,Mt Liebig,Complete,False
+YULARA,TOURISM,,YES,,,TELSTRA,-25.2413299999999,130.98766,True,False,False,1,Macro Cell,Very Remote Australia,False,122.17,MBSP2-NT-009,Kings Canyon Resort,Complete,False

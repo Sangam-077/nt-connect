@@ -1,0 +1,49 @@
+mbsp_id,round,location,grantee,state,electorate,lga,remoteness,base_station_type,site_status,completion_date,solution_category,longitude,latitude
+MBSP-NT-001,Round 1,Finke,Telstra,NT,Lingiari,MacDonnell,Very Remote Australia,Macro cell,Complete,"Mar, 2023",N/A,134.57347,-25.58498
+MBSP-NT-002,Round 1,Imanpa,Telstra,NT,Lingiari,MacDonnell,Very Remote Australia,Macro cell,Complete,"Jan, 2021",N/A,132.56934,-25.12909
+MBSP-NT-003,Round 1,Minjilang,Telstra,NT,Lingiari,West Arnhem,Very Remote Australia,Macro cell,Complete,"Jun, 2017",N/A,132.57395,-11.14787
+MBSP-NT-004,Round 1,Mt Liebig,Telstra,NT,Lingiari,MacDonnell,Very Remote Australia,Macro cell,Complete,"Sep, 2018",N/A,131.2774,-23.2545
+MBSP-NT-005,Round 1,Wallace Rockhole,Telstra,NT,Lingiari,MacDonnell,Very Remote Australia,Macro cell,Complete,"Jun, 2018",N/A,133.08763,-24.12448
+MBSP2-NT-002,Round 2,Bark Hut Inn,Optus,NT,Lingiari,Unincorporated NT,Remote Australia,Small cell,Complete,"Jan, 2022",N/A,131.675696,-12.899765
+MBSP2-NT-003,Round 2,Bynoe,Telstra,NT,Lingiari,Unincorporated NT,Remote Australia,Macro cell,Complete,"Apr, 2018",N/A,130.62062,-12.81878
+MBSP2-NT-004,Round 2,Cape Crawford,Optus,NT,Lingiari,Roper Gulf,Very Remote Australia,Small cell,Complete,"Oct, 2017",N/A,135.7265,-16.6834
+MBSP2-NT-005,Round 2,Chinner Road,Telstra,NT,Lingiari,Coomalie,Remote Australia,Macro cell,Complete,"Jun, 2018",N/A,131.14354,-12.98565
+MBSP2-NT-006,Round 2,Devils Marbles Hotel,Optus,NT,Lingiari,Barkly,Very Remote Australia,Small cell,Complete,"Sep, 2017",N/A,134.2227,-20.6409
+MBSP2-NT-007,Round 2,Florence Falls,Optus,NT,Lingiari,Unincorporated NT,Remote Australia,Small cell,Complete,"Jul, 2019",N/A,130.793267,-13.109367
+MBSP2-NT-008,Round 2,Gem Tree,Optus,NT,Lingiari,Central Desert,Very Remote Australia,Small cell,Complete,"Sep, 2017",N/A,134.24121,-22.96838
+MBSP2-NT-009,Round 2,Kings Canyon Resort,Optus,NT,Lingiari,MacDonnell,Very Remote Australia,Small cell,Complete,"Sep, 2017",N/A,131.5116,-24.251
+MBSP2-NT-010,Round 2,Kings Creek Station,Optus,NT,Lingiari,MacDonnell,Very Remote Australia,Small cell,Complete,"Sep, 2017",N/A,131.8179,-24.4053
+MBSP2-NT-011,Round 2,Litchfield Ranger Station,Optus,NT,Lingiari,Unincorporated NT,Remote Australia,Macro cell,Complete,"Dec, 2021",N/A,130.69571,-13.12293
+MBSP2-NT-012,Round 2,Mary River Roadhouse,Optus,NT,Lingiari,Victoria Daly,Remote Australia,Small cell,Complete,"Oct, 2017",N/A,132.2201,-13.6061
+MBSP2-NT-013,Round 2,Stuarts Well Roadhouse,Optus,NT,Lingiari,MacDonnell,Remote Australia,Small cell,Complete,"Sep, 2017",N/A,133.45876,-24.34009
+MBSP2-NT-014,Round 2,Victoria River Roadhouse,Optus,NT,Lingiari,Victoria Daly,Very Remote Australia,Small cell,Complete,"Oct, 2017",N/A,131.1289,-15.6176
+MBSP2-NT-015,Round 2,Wangi Falls,Optus,NT,Lingiari,Unincorporated NT,Remote Australia,Small cell,Complete,"Jul, 2019",N/A,130.679087,-13.164608
+MBSP2-NT-016,Round 2,Lingara,Optus,NT,Lingiari,Victoria Daly,Very Remote Australia,Small cell,Complete,"Jul, 2022",N/A,130.643636,-16.486946
+MBSP4-NT-001,Round 4,Arltunga Vc (PIP),Optus,NT,Lingiari,Central Desert,Very Remote Australia,Small cell,Complete,"Feb, 2022",N/A,134.68709,-23.45604
+MBSP4-NT-002,Round 4,Chambers Pillar (PIP),Optus,NT,Lingiari,MacDonnell,Remote Australia,Small cell,Complete,"Jun, 2022",N/A,133.8146,-24.86252
+MBSP4-NT-003,Round 4,Devils Marbles (PIP),Optus,NT,Lingiari,Barkly,Very Remote Australia,Small cell,Complete,"Jun, 2022",N/A,134.2694,-20.5558
+MBSP4-NT-004,Round 4,Dunmurra Wayside Inn (PIP),Optus,NT,Lingiari,Roper Gulf,Very Remote Australia,Small cell,Complete,"Sep, 2020",N/A,133.41264,-16.67964
+MBSP4-NT-005,Round 4,Edith Falls (PIP),Optus,NT,Lingiari,Roper Gulf,Very Remote Australia,Small cell,Complete,"Jan, 2022",N/A,132.18641,-14.17813
+MBSP4-NT-006,Round 4,Ellery Creek Big Hole (PIP),Optus,NT,Lingiari,MacDonnell,Very Remote Australia,Small cell,Complete,"Jun, 2022",N/A,133.0742,-23.788106
+MBSP4-NT-007,Round 4,Larrimah (PIP),Optus,NT,Lingiari,Roper Gulf,Very Remote Australia,Small cell,Complete,"Sep, 2020",N/A,133.2149,-15.5742
+MBSP4-NT-008,Round 4,Palm Valley (PIP),Optus,NT,Lingiari,MacDonnell,Very Remote Australia,Small cell,Complete,"Jun, 2022",N/A,132.7399,-24.0562
+MBSP4-NT-009,Round 4,Shady Camp (PIP),Optus,NT,Lingiari,Unincorporated NT,Remote Australia,Small cell,Complete,"Jun, 2022",N/A,131.728776,-12.481606
+MBSP4-NT-010,Round 4,Tobermorey (PIP),Optus,NT,Lingiari,Central Desert,Very Remote Australia,Small cell,Complete,"Feb, 2022",N/A,137.974,-22.2742
+MBSP4-NT-011,Round 4,Trephina Gorge East (PIP),Optus,NT,Lingiari,Central Desert,Very Remote Australia,Small cell,Complete,"Jun, 2022",N/A,134.396939,-23.522509
+MBSP4-NT-013,Round 4,Rainbow Valley,Optus,NT,Lingiari,MacDonnell,Remote Australia,Small cell,Complete,"Jun, 2023",N/A,133.633583,-24.321417
+MBSP5-NT-001,Round 5,12 Mile Campground,Optus,NT,Lingiari,Roper Gulf,Very Remote Australia,Small cell,Complete,"Jun, 2023",N/A,133.221,-14.9542
+MBSP5-NT-003,Round 5,Cahills Crossing,Optus,NT,Lingiari,West Arnhem,Remote Australia,Small cell,Complete,"Dec, 2022",N/A,132.958422,-12.426536
+MBSP5-NT-004,Round 5,Gunn Point,Optus,NT,Lingiari,Litchfield,Outer Regional Australia,Macro cell,Complete,"Jun, 2024",N/A,131.06841,-12.27083
+MBSP5-NT-005,Round 5,Keep River NP 1,Optus,NT,Lingiari,Victoria Daly,Very Remote Australia,Small cell,Complete,"Jun, 2023",N/A,129.106028,-15.762983
+MBSP5-NT-006,Round 5,Keep River NP 2,Optus,NT,Lingiari,Victoria Daly,Very Remote Australia,Small cell,Complete,"Jun, 2023",N/A,129.07229,-15.89107
+MBSP5-NT-007,Round 5,Redbank Gorge,Optus,NT,Lingiari,MacDonnell,Very Remote Australia,Small cell,Complete,"Dec, 2022",N/A,132.51367,-23.5863
+MBSP5-NT-008,Round 5,Sandy Creek,Optus,NT,Lingiari,Unincorporated NT,Remote Australia,Small cell,Complete,"Apr, 2023",N/A,130.814953,-13.247436
+MBSP5-NT-011,Round 5,Tara Community,Telstra,NT,Lingiari,Barkly,Very Remote Australia,Small cell,Complete,"Jun, 2023",N/A,133.9967,-21.5077
+MBSP5-NT-012,Round 5,Douglas Daly Holiday Park,Optus,NT,Lingiari,Unincorporated NT,Remote Australia,Small cell,Complete,"Jun, 2022",N/A,131.351056,-13.787264
+MBSP7-NT-001,Round 7,Banka Banka,Telstra,NT,Lingiari,Barkly,Very Remote Australia,Microcell,In Progress,<Null>,Mobile Black Spot,134.030303,-18.792031
+MBSP7-NT-002,Round 7,King Ash Bay,Telstra,NT,Lingiari,Roper Gulf,Very Remote Australia,Macro cell,In Progress,<Null>,Mobile Black Spot,136.48531,-15.932242
+MBSP7-NT-003,Round 7,Murray Downs (Imangara),Telstra,NT,Lingiari,Barkly,Very Remote Australia,Microcell,In Progress,<Null>,First Nations,134.4036,-21.23
+MBSP7-NT-004,Round 7,Renner Springs,Telstra,NT,Lingiari,Barkly,Very Remote Australia,Macro cell,In Progress,<Null>,Mobile Black Spot,133.794743,-18.317826
+MBSP7-NT-005,Round 7,Urapunga,Telstra,NT,Lingiari,Roper Gulf,Very Remote Australia,Microcell,In Progress,<Null>,First Nations,134.567253,-14.709618
+MBSP7-NT-006,Round 7,Victoria River Roadhouse,Telstra,NT,Lingiari,Victoria Daly,Very Remote Australia,Microcell,In Progress,<Null>,Mobile Black Spot,131.129321,-15.617083
+MBSP7-NT-007,Round 7,Yilpara (Banyala),Telstra,NT,Lingiari,East Arnhem,Very Remote Australia,Microcell,In Progress,<Null>,First Nations,136.22743,-13.19958

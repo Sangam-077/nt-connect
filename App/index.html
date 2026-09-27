@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b3b45">
+  <title>Remote Connectivity NT</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="eyebrow">CDU DATA INNOVATION CHALLENGE</div>
+    <h1>Remote Connectivity NT</h1>
+    <p>Offline-first connectivity intelligence and transparent prioritisation for remote Northern Territory communities.</p>
+  </div>
+  <div class="status-wrap">
+    <span id="networkStatus" class="status online">● Online</span>
+    <span id="dataStatus" class="data-status">Loading local data…</span>
+  </div>
+</header>
+
+<nav class="section-nav" aria-label="Page sections">
+  <a href="#explore">Explore</a>
+  <a href="#priority">Priority index</a>
+  <a href="#ranking">Ranking</a>
+  <a href="#offline">Offline</a>
+  <a href="#responsibility">Responsible use</a>
+</nav>
+
+<main>
+  <section class="data-health">
+    <strong>Data health:</strong>
+    <span id="healthText">Embedded dataset loading…</span>
+  </section>
+
+  <section class="metrics" aria-label="Key metrics">
+    <article><span>Mobile locations</span><strong id="metricLocations">—</strong></article>
+    <article><span>Very Remote</span><strong id="metricVeryRemote">—</strong></article>
+    <article><span>Black Spot projects</span><strong id="metricBlackSpots">—</strong></article>
+    <article><span>In progress</span><strong id="metricInProgress">—</strong></article>
+  </section>
+
+  <section id="explore" class="workspace">
+    <aside class="sidebar">
+      <div class="section-title">Explore</div>
+
+      <label>
+        Find a location
+        <input id="searchInput" type="search" placeholder="Type a community or Black Spot">
+      </label>
+      <div id="searchResults" class="search-results" hidden></div>
+
+      <label>
+        Provider
+        <select id="providerFilter"><option value="">All providers</option></select>
+      </label>
+
+      <label>
+        Coverage type
+        <select id="coverageFilter"><option value="">All coverage types</option></select>
+      </label>
+
+      <label>
+        Site type
+        <select id="siteFilter"><option value="">All site types</option></select>
+      </label>
+
+      <label>
+        Remoteness
+        <select id="remotenessFilter"><option value="">All remoteness classes</option></select>
+      </label>
+
+      <div class="layer-group">
+        <span>Layers</span>
+        <label class="check"><input id="toggleMobile" type="checkbox" checked> Mobile locations</label>
+        <label class="check"><input id="toggleBlackspots" type="checkbox" checked> Black Spot projects</label>
+      </div>
+
+      <button id="resetFilters" class="secondary">Reset filters</button>
+
+      <div class="offline-tools">
+        <div class="section-title small-title">Offline tools</div>
+        <div id="offlineSavedCount" class="saved-count">0 locations saved offline</div>
+        <button id="saveSelectedOffline" class="secondary" disabled>Select a mobile location to save</button>
+        <button id="downloadFiltered" class="secondary">Download filtered data</button>
+      </div>
+    </aside>
+
+    <section class="map-panel">
+      <div class="map-toolbar">
+        <div>
+          <strong>NT connectivity map</strong>
+          <span id="visibleCount">— locations shown</span>
+        </div>
+        <div class="legend">
+          <span><i class="legend-dot"></i> Mobile site</span>
+          <span><i class="legend-triangle"></i> Black Spot</span>
+        </div>
+      </div>
+      <div id="map" class="map" role="img" aria-label="Northern Territory connectivity map">
+        <svg id="mapSvg" viewBox="0 0 1000 900" preserveAspectRatio="xMidYMid meet"></svg>
+        <div id="mapEmpty" class="map-empty" hidden>No locations match the current filters.</div>
+      </div>
+    </section>
+
+    <aside class="detail-panel">
+      <div class="section-title">Location details</div>
+      <div id="detailEmpty" class="muted">Select a mobile location or Black Spot marker.</div>
+      <div id="detailContent" hidden>
+        <h2 id="detailName"></h2>
+        <div id="detailRows" class="detail-rows"></div>
+        <button id="savePack" disabled>Save this location offline</button>
+        <div id="saveMessage" class="save-message"></div>
+      </div>
+    </aside>
+  </section>
+
+  <section id="priority" class="priority-section">
+    <div class="priority-map-card">
+      <div class="section-title">Community priority map</div>
+      <p class="section-copy">
+        Explore an <strong>illustrative decision-support index</strong>. It combines only fields available in this prototype.
+        A higher score means “investigate further”, not “this community definitely has bad coverage”.
+      </p>
+
+      <div class="mode-pills" role="group" aria-label="Priority map mode">
+        <button class="mode-pill active" data-mode="combined">Combined Gap Index</button>
+        <button class="mode-pill" data-mode="mobile">Mobile infrastructure gap</button>
+        <button class="mode-pill" data-mode="nbn">NBN fixed-line gap</button>
+        <button class="mode-pill" data-mode="remote">Remoteness</button>
+        <button class="mode-pill" data-mode="intervention">Intervention distance</button>
+        <button class="mode-pill" data-mode="population">Population impact</button>
+      </div>
+
+      <div class="priority-map-wrap">
+        <svg id="priorityMapSvg" viewBox="0 0 1000 760" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <div class="score-legend">
+        <span><i class="score-dot low"></i> Lower</span>
+        <span><i class="score-dot moderate"></i> Moderate</span>
+        <span><i class="score-dot high"></i> Higher</span>
+        <span>Size = known population</span>
+      </div>
+
+      <div id="priorityDetail" class="priority-detail">
+        Select a point on the priority map to see its drivers and recommendations.
+      </div>
+    </div>
+
+    <aside class="weights-card">
+      <div class="section-title">Weight what matters</div>
+      <p class="section-copy">
+        Change the weights and the map, ranking and recommendations update immediately.
+        Weights are automatically normalised, so they do not need to sum to 100.
+      </p>
+
+      <div class="slider-row">
+        <label for="wMobile">Mobile infrastructure gap <strong id="vMobile">35</strong></label>
+        <input id="wMobile" type="range" min="0" max="100" value="35">
+      </div>
+      <div class="slider-row">
+        <label for="wNbn">NBN fixed-line gap <strong id="vNbn">20</strong></label>
+        <input id="wNbn" type="range" min="0" max="100" value="20">
+      </div>
+      <div class="slider-row">
+        <label for="wRemote">Remoteness <strong id="vRemote">20</strong></label>
+        <input id="wRemote" type="range" min="0" max="100" value="20">
+      </div>
+      <div class="slider-row">
+        <label for="wIntervention">Intervention distance <strong id="vIntervention">15</strong></label>
+        <input id="wIntervention" type="range" min="0" max="100" value="15">
+      </div>
+      <div class="slider-row">
+        <label for="wPopulation">Population impact <strong id="vPopulation">10</strong></label>
+        <input id="wPopulation" type="range" min="0" max="100" value="10">
+      </div>
+
+      <div class="weight-actions">
+        <button id="resetWeights" class="secondary">Reset weights</button>
+        <button id="communityPreset" class="secondary">Community-impact preset</button>
+      </div>
+
+      <div class="method-note">
+        <strong>Why these five?</strong>
+        <span>They can all be derived from the datasets already integrated into this prototype. Cyclone exposure and health/service-reliance layers can be added later when authoritative data is wired in.</span>
+      </div>
+    </aside>
+  </section>
+
+  <section id="ranking" class="ranking-card">
+    <div class="ranking-head">
+      <div>
+        <div class="section-title">Priority ranking</div>
+        <p class="section-copy">Sort the table or change the weights above. Only COMMUNITY and VILLAGE records with known population are ranked.</p>
+      </div>
+      <button id="downloadRanking" class="secondary compact">Download ranked list (CSV)</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="rankingTable">
+        <thead>
+          <tr>
+            <th data-sort="site_name">Community</th>
+            <th data-sort="population">Population</th>
+            <th data-sort="mobile_gap">Mobile</th>
+            <th data-sort="nbn_gap">NBN fixed-line</th>
+            <th data-sort="remote_gap">Remoteness</th>
+            <th data-sort="intervention_gap">Intervention</th>
+            <th data-sort="population_impact">Population impact</th>
+            <th data-sort="gap_index">Gap Index</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="insights">
+    <div class="section-title">What the underlying data shows</div>
+    <div class="insight-grid">
+      <article><strong>74.5%</strong><span>of mobile locations fall in Very Remote Australia.</span></article>
+      <article><strong>51.1%</strong><span>of locations are classified as Proximity-to-Cell only.</span></article>
+      <article><strong>48</strong><span>NT Mobile Black Spot projects appear in the supplied dataset.</span></article>
+      <article><strong>1 / 188</strong><span>mobile locations intersect the supplied 2024 NBN fixed-line layer.</span></article>
+    </div>
+    <p class="caution">
+      These are dataset findings. They are separate from the illustrative priority score above.
+    </p>
+  </section>
+
+  <section id="offline" class="offline-card">
+    <div>
+      <div class="section-title">Built to work with no signal</div>
+      <h2>Core data and app files stay local after the first visit</h2>
+      <p>
+        The app embeds its core datasets and caches the application shell. Saved location packs are also stored in the browser.
+        This makes the prototype usable when the connection is weak or unavailable.
+      </p>
+    </div>
+    <div class="offline-actions">
+      <button id="simulateOffline" class="secondary">Simulate offline UI</button>
+      <div class="offline-flow">
+        <span>Online sync</span><b>→</b><span>Local cache</span><b>→</b><span>Offline use</span><b>→</b><span>Refresh later</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="responsibility" class="responsibility-card">
+    <div class="section-title">Using this responsibly</div>
+    <ul>
+      <li><strong>The Gap Index is illustrative.</strong> It is a transparent triage tool, not a measured signal-quality score or investment verdict.</li>
+      <li><strong>NBN gap means fixed-line gap in this prototype.</strong> Fixed wireless and satellite are not represented by the supplied fixed-line layer.</li>
+      <li>Infrastructure presence does not prove reliable service; terrain, backhaul, congestion, devices and weather can all matter.</li>
+      <li>First Nations community mapping should involve consultation on what is shown, to whom, and how, consistent with Indigenous Data Sovereignty principles.</li>
+      <li>This prototype uses community/location-level records and does not model individual or household-level data.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  Remote Connectivity NT · Data Innovation Challenge prototype
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

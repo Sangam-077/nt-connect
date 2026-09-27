@@ -1,0 +1,9 @@
+{
+  "name": "Remote Connectivity NT",
+  "short_name": "RemoteConnect",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f7f7",
+  "theme_color": "#0b3b45",
+  "description": "Offline-first connectivity explorer and transparent prioritisation prototype for remote Northern Territory communities."
+}
