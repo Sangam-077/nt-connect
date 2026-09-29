@@ -66,3 +66,40 @@ Sources: https://nt.gov.au/emergency/emergencies/contact-an-emergency-service an
 - `data/*` — separately inspectable source-derived outputs
 
 Only ship after running the accompanying `LAUNCH_CHECKLIST.md` on your target Windows browser and collecting screenshots for the demo.
+
+
+## Optional: historical cyclone-season occurrence (new)
+
+The new **Historical frequency** map mode and selected-location profile distinguish
+45-season retrospective **cyclone-system centre track proximity** from the existing
+relative historical cyclone-context score. The new percentage is **NOT a next-season
+forecast, a local wind/damage probability or a measured cyclone-risk percentage**.
+
+The existing mobile JSON contains total track counts, but **not a season-by-season
+breakdown**, so we do not invent an occurrence percentage. To calculate:
+
+1. Run `python -m http.server 8080` inside `app/` and open `http://localhost:8080`.
+2. Select a location, then under **Historical cyclone-season occurrence**, click
+   **Import BOM CSV & calculate**.
+3. Select your official raw BOM `IDCKMSTM0S.csv` or `bom_tropical_cyclone_tracks.csv`.
+   It is processed **locally in your browser**; the raw file is never uploaded.
+4. The app computes the same seasonal denominator and counts for all 188 locations,
+   then saves the result locally for offline access. The map mode, selected profile,
+   comparison, ranking export and HTML offline packs will include the new indicator.
+5. For **GitHub, other browsers or Code Fair judges**, choose **Export shareable
+   cyclone_frequency_data.js** in that same dialog, copy the downloaded file
+   over the placeholder at `app/cyclone_frequency_data.js`, then commit it. This
+   makes the derived history bundled and offline-accessible for everyone.
+6. Test a fresh/incognito browser with the bundled file to confirm that percentages
+   appear without re-importing the original BOM CSV.
+
+**Period and calculation:** 1980–81 through 2024–25, 45 complete July–June
+seasons. For each location, count distinct seasons having one or more BOM
+`TYPE=T` cyclone-system centre tracks within 100 km; divide by 45 and multiply
+by 100. Distances are approximated locally; consecutive observation fixes are
+interpolated only for intervals up to 24 hours. The panel also shows the
+number of seasons within 50 and 200 km. Source: [Bureau of Meteorology best
+track database](https://www.bom.gov.au/cyclone/history/). Historical records
+are subject to observational limitations and do not guarantee future outcomes.
+The existing Gap Index remains **unchanged**; it continues to use the relative
+cyclone-context dimension, not the seasonal occurrence percentage.

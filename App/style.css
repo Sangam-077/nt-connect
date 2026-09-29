@@ -7,3 +7,18 @@
 .plan-list{display:grid;gap:10px}.confidence-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.confidence-check{padding:10px;background:#152d43;border:1px solid #30516a;border-radius:8px;font-size:12px}.confidence-check.ok{color:#99ddb7}.confidence-check.missing{color:#efbd84}.source-note{border-left:3px solid #e9b66d;padding:12px 15px;background:#302d2c;border-radius:9px;margin:13px 0;font-size:12px;color:#f0dcc4}.source-note a{color:#9fdbe0}.text-link:hover{color:#ffdd9e}.service-marker{font-size:13px;fill:#86e9ac;cursor:pointer;paint-order:stroke;stroke:#112e30;stroke-width:2px}
 .profile-card{min-height:0}.profile-foot{line-height:1.5}.rank-row{width:100%}.drawer,.dialog{overscroll-behavior:contain}.dialog button{cursor:pointer}.emergency-card a{word-break:break-word}.data-table{min-width:580px}
 @media(max-width:750px){.profile-main{grid-template-columns:116px 1fr}.profile-inside{padding:12px}.evidence-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.profile-actions .btn{flex:1 1 100%}}
+
+/* Historical cyclone-season occurrence — separate from relative Gap Index */
+.seasonal-card{margin:11px 0 8px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;background:linear-gradient(115deg,#12314a,#233646);border:1px solid #4e7082;border-radius:12px;padding:13px 14px}
+.seasonal-card h4{font-size:14px;margin:2px 0 3px;color:#f5e4c7}
+.seasonal-card p{font-size:10px;line-height:1.45;color:#c6d7e3;margin:0}
+.seasonal-eyebrow{font-size:9px;letter-spacing:.08em;font-weight:800;color:#93d5dd}
+.seasonal-number{font-weight:900;color:#ffcb83;font-size:29px;align-self:center;font-variant-numeric:tabular-nums}
+.seasonal-foot{grid-column:1/-1;color:#c5d3df;font-size:10px}
+.seasonal-card>.text-link{grid-column:1/-1;justify-self:start;margin-top:2px}
+.frequency-summary{display:flex;gap:16px;align-items:center;background:#19384e;border:1px solid #487185;border-radius:12px;padding:14px;margin:12px 0}
+.frequency-summary strong{font-size:34px;color:#ffc789;white-space:nowrap;font-variant-numeric:tabular-nums}
+.frequency-summary div{font-size:12px;line-height:1.5}
+.mode-tabs{flex-wrap:wrap}
+.mode-tabs button{white-space:nowrap}
+@media(max-width:750px){.seasonal-number{font-size:24px}.map-toolbar .mode-tabs{overflow:auto;justify-content:flex-start}.map-toolbar .mode-tabs button{flex:0 0 auto}}
