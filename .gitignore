@@ -1,0 +1,45 @@
+# Credentials / local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.pytest_cache/
+
+# OS and IDE
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.log
+
+# Old builds, backups and downloaded release archives
+app_old*/
+app_v*_backup*/
+app_backup*/
+*.zip
+*_nt_connect_offline.html
+
+# Large GIS source distributions and extracted GIS binaries.
+# Source access and processing steps are documented in docs/REPRODUCIBILITY.md.
+*.gpkg
+*.gdb/
+*.tif
+*.tiff
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.gpkg-wal
+*.gpkg-shm
+
+# Keep app/data/*.json and small, curated CSVs available for reproducibility.

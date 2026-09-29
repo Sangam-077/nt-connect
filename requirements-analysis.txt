@@ -1,0 +1,10 @@
+# Optional: only needed to re-run the Jupyter data-analysis notebooks.
+# The static app itself has no Python package dependencies.
+jupyterlab
+pandas
+numpy
+matplotlib
+geopandas
+shapely
+pyproj
+openpyxl
