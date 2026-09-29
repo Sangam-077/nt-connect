@@ -1,269 +1,37 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b3b45">
-  <title>Remote Connectivity NT</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
-</head>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#0a1726"/><meta name="description" content="NT Connect combines public infrastructure, community and historical cyclone context into an offline-first NT decision-support explorer."/><title>NT Connect · Find gaps. Plan action. Stay ready.</title><link rel="icon" href="assets/icon.svg" type="image/svg+xml"/><link rel="manifest" href="manifest.json"/><link rel="stylesheet" href="style.css"/></head>
 <body>
 <header class="topbar">
-  <div>
-    <div class="eyebrow">CDU DATA INNOVATION CHALLENGE</div>
-    <h1>Remote Connectivity NT</h1>
-    <p>Offline-first connectivity intelligence and transparent prioritisation for remote Northern Territory communities.</p>
-  </div>
-  <div class="status-wrap">
-    <span id="networkStatus" class="status online">● Online</span>
-    <span id="dataStatus" class="data-status">Loading local data…</span>
-  </div>
+  <div class="brand" aria-label="NT Connect"><div class="brand-logo">NT<span>●</span></div><div><b>NT Connect</b><small>Find gaps. Plan action. Stay usable offline.</small></div></div>
+  <div class="search-wrap"><label for="searchInput" class="sr-only">Search locations</label><span aria-hidden="true">⌕</span><input id="searchInput" autocomplete="off" placeholder="Search a community or Black Spot project…"/><div id="searchSuggestions" class="suggestions" hidden></div></div>
+  <div class="header-actions"><span class="network" id="networkStatus" title="Core data is included locally after the first successful app load">● Checking offline cache</span><button id="topFilter" class="btn secondary" type="button">☷ Filters <span id="filterBadge" hidden>0</span></button><button id="topEmergency" class="btn alert-outline" type="button">Emergency info</button></div>
 </header>
-
-<nav class="section-nav" aria-label="Page sections">
-  <a href="#explore">Explore</a>
-  <a href="#priority">Priority index</a>
-  <a href="#ranking">Ranking</a>
-  <a href="#offline">Offline</a>
-  <a href="#responsibility">Responsible use</a>
+<div class="shell">
+<nav class="rail" aria-label="Primary navigation">
+  <div><button class="rail-link active" data-route="home" title="Overview"><span>⌂</span><label>Explore</label></button><button class="rail-link" data-route="ranking" title="Community ranking"><span>▤</span><label>Ranking</label></button><button class="rail-link" data-route="compare" title="Compare communities"><span>⇄</span><label>Compare</label></button><button class="rail-link" data-route="plan" title="Action plan"><span>◎</span><label>Action plan</label></button><button class="rail-link" data-route="offline" title="Offline packs"><span>↓</span><label>Offline</label></button><button class="rail-link" data-route="emergency" title="Emergency reference"><span>✚</span><label>Emergency</label></button></div>
+  <div class="rail-bottom"><button class="rail-link" data-route="methodology" title="Methodology and sources"><span>ⓘ</span><label>About data</label></button><small>CDU Data Innovation Challenge · Prototype</small></div>
 </nav>
-
-<main>
-  <section class="data-health">
-    <strong>Data health:</strong>
-    <span id="healthText">Embedded dataset loading…</span>
-  </section>
-
-  <section class="metrics" aria-label="Key metrics">
-    <article><span>Mobile locations</span><strong id="metricLocations">—</strong></article>
-    <article><span>Very Remote</span><strong id="metricVeryRemote">—</strong></article>
-    <article><span>Black Spot projects</span><strong id="metricBlackSpots">—</strong></article>
-    <article><span>In progress</span><strong id="metricInProgress">—</strong></article>
-  </section>
-
-  <section id="explore" class="workspace">
-    <aside class="sidebar">
-      <div class="section-title">Explore</div>
-
-      <label>
-        Find a location
-        <input id="searchInput" type="search" placeholder="Type a community or Black Spot">
-      </label>
-      <div id="searchResults" class="search-results" hidden></div>
-
-      <label>
-        Provider
-        <select id="providerFilter"><option value="">All providers</option></select>
-      </label>
-
-      <label>
-        Coverage type
-        <select id="coverageFilter"><option value="">All coverage types</option></select>
-      </label>
-
-      <label>
-        Site type
-        <select id="siteFilter"><option value="">All site types</option></select>
-      </label>
-
-      <label>
-        Remoteness
-        <select id="remotenessFilter"><option value="">All remoteness classes</option></select>
-      </label>
-
-      <div class="layer-group">
-        <span>Layers</span>
-        <label class="check"><input id="toggleMobile" type="checkbox" checked> Mobile locations</label>
-        <label class="check"><input id="toggleBlackspots" type="checkbox" checked> Black Spot projects</label>
-      </div>
-
-      <button id="resetFilters" class="secondary">Reset filters</button>
-
-      <div class="offline-tools">
-        <div class="section-title small-title">Offline tools</div>
-        <div id="offlineSavedCount" class="saved-count">0 locations saved offline</div>
-        <button id="saveSelectedOffline" class="secondary" disabled>Select a mobile location to save</button>
-        <button id="downloadFiltered" class="secondary">Download filtered data</button>
-      </div>
-    </aside>
-
-    <section class="map-panel">
-      <div class="map-toolbar">
-        <div>
-          <strong>NT connectivity map</strong>
-          <span id="visibleCount">— locations shown</span>
-        </div>
-        <div class="legend">
-          <span><i class="legend-dot"></i> Mobile site</span>
-          <span><i class="legend-triangle"></i> Black Spot</span>
-        </div>
-      </div>
-      <div id="map" class="map" role="img" aria-label="Northern Territory connectivity map">
-        <svg id="mapSvg" viewBox="0 0 1000 900" preserveAspectRatio="xMidYMid meet"></svg>
-        <div id="mapEmpty" class="map-empty" hidden>No locations match the current filters.</div>
-      </div>
-    </section>
-
-    <aside class="detail-panel">
-      <div class="section-title">Location details</div>
-      <div id="detailEmpty" class="muted">Select a mobile location or Black Spot marker.</div>
-      <div id="detailContent" hidden>
-        <h2 id="detailName"></h2>
-        <div id="detailRows" class="detail-rows"></div>
-        <button id="savePack" disabled>Save this location offline</button>
-        <div id="saveMessage" class="save-message"></div>
-      </div>
-    </aside>
-  </section>
-
-  <section id="priority" class="priority-section">
-    <div class="priority-map-card">
-      <div class="section-title">Community priority map</div>
-      <p class="section-copy">
-        Explore an <strong>illustrative decision-support index</strong>. It combines only fields available in this prototype.
-        A higher score means “investigate further”, not “this community definitely has bad coverage”.
-      </p>
-
-      <div class="mode-pills" role="group" aria-label="Priority map mode">
-        <button class="mode-pill active" data-mode="combined">Combined Gap Index</button>
-        <button class="mode-pill" data-mode="mobile">Mobile infrastructure gap</button>
-        <button class="mode-pill" data-mode="nbn">NBN fixed-line gap</button>
-        <button class="mode-pill" data-mode="remote">Remoteness</button>
-        <button class="mode-pill" data-mode="intervention">Intervention distance</button>
-        <button class="mode-pill" data-mode="population">Population impact</button>
-      </div>
-
-      <div class="priority-map-wrap">
-        <svg id="priorityMapSvg" viewBox="0 0 1000 760" preserveAspectRatio="xMidYMid meet"></svg>
-      </div>
-      <div class="score-legend">
-        <span><i class="score-dot low"></i> Lower</span>
-        <span><i class="score-dot moderate"></i> Moderate</span>
-        <span><i class="score-dot high"></i> Higher</span>
-        <span>Size = known population</span>
-      </div>
-
-      <div id="priorityDetail" class="priority-detail">
-        Select a point on the priority map to see its drivers and recommendations.
-      </div>
-    </div>
-
-    <aside class="weights-card">
-      <div class="section-title">Weight what matters</div>
-      <p class="section-copy">
-        Change the weights and the map, ranking and recommendations update immediately.
-        Weights are automatically normalised, so they do not need to sum to 100.
-      </p>
-
-      <div class="slider-row">
-        <label for="wMobile">Mobile infrastructure gap <strong id="vMobile">35</strong></label>
-        <input id="wMobile" type="range" min="0" max="100" value="35">
-      </div>
-      <div class="slider-row">
-        <label for="wNbn">NBN fixed-line gap <strong id="vNbn">20</strong></label>
-        <input id="wNbn" type="range" min="0" max="100" value="20">
-      </div>
-      <div class="slider-row">
-        <label for="wRemote">Remoteness <strong id="vRemote">20</strong></label>
-        <input id="wRemote" type="range" min="0" max="100" value="20">
-      </div>
-      <div class="slider-row">
-        <label for="wIntervention">Intervention distance <strong id="vIntervention">15</strong></label>
-        <input id="wIntervention" type="range" min="0" max="100" value="15">
-      </div>
-      <div class="slider-row">
-        <label for="wPopulation">Population impact <strong id="vPopulation">10</strong></label>
-        <input id="wPopulation" type="range" min="0" max="100" value="10">
-      </div>
-
-      <div class="weight-actions">
-        <button id="resetWeights" class="secondary">Reset weights</button>
-        <button id="communityPreset" class="secondary">Community-impact preset</button>
-      </div>
-
-      <div class="method-note">
-        <strong>Why these five?</strong>
-        <span>They can all be derived from the datasets already integrated into this prototype. Cyclone exposure and health/service-reliance layers can be added later when authoritative data is wired in.</span>
-      </div>
-    </aside>
-  </section>
-
-  <section id="ranking" class="ranking-card">
-    <div class="ranking-head">
-      <div>
-        <div class="section-title">Priority ranking</div>
-        <p class="section-copy">Sort the table or change the weights above. Only COMMUNITY and VILLAGE records with known population are ranked.</p>
-      </div>
-      <button id="downloadRanking" class="secondary compact">Download ranked list (CSV)</button>
-    </div>
-
-    <div class="table-wrap">
-      <table id="rankingTable">
-        <thead>
-          <tr>
-            <th data-sort="site_name">Community</th>
-            <th data-sort="population">Population</th>
-            <th data-sort="mobile_gap">Mobile</th>
-            <th data-sort="nbn_gap">NBN fixed-line</th>
-            <th data-sort="remote_gap">Remoteness</th>
-            <th data-sort="intervention_gap">Intervention</th>
-            <th data-sort="population_impact">Population impact</th>
-            <th data-sort="gap_index">Gap Index</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="insights">
-    <div class="section-title">What the underlying data shows</div>
-    <div class="insight-grid">
-      <article><strong>74.5%</strong><span>of mobile locations fall in Very Remote Australia.</span></article>
-      <article><strong>51.1%</strong><span>of locations are classified as Proximity-to-Cell only.</span></article>
-      <article><strong>48</strong><span>NT Mobile Black Spot projects appear in the supplied dataset.</span></article>
-      <article><strong>1 / 188</strong><span>mobile locations intersect the supplied 2024 NBN fixed-line layer.</span></article>
-    </div>
-    <p class="caution">
-      These are dataset findings. They are separate from the illustrative priority score above.
-    </p>
-  </section>
-
-  <section id="offline" class="offline-card">
-    <div>
-      <div class="section-title">Built to work with no signal</div>
-      <h2>Core data and app files stay local after the first visit</h2>
-      <p>
-        The app embeds its core datasets and caches the application shell. Saved location packs are also stored in the browser.
-        This makes the prototype usable when the connection is weak or unavailable.
-      </p>
-    </div>
-    <div class="offline-actions">
-      <button id="simulateOffline" class="secondary">Simulate offline UI</button>
-      <div class="offline-flow">
-        <span>Online sync</span><b>→</b><span>Local cache</span><b>→</b><span>Offline use</span><b>→</b><span>Refresh later</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="responsibility" class="responsibility-card">
-    <div class="section-title">Using this responsibly</div>
-    <ul>
-      <li><strong>The Gap Index is illustrative.</strong> It is a transparent triage tool, not a measured signal-quality score or investment verdict.</li>
-      <li><strong>NBN gap means fixed-line gap in this prototype.</strong> Fixed wireless and satellite are not represented by the supplied fixed-line layer.</li>
-      <li>Infrastructure presence does not prove reliable service; terrain, backhaul, congestion, devices and weather can all matter.</li>
-      <li>First Nations community mapping should involve consultation on what is shown, to whom, and how, consistent with Indigenous Data Sovereignty principles.</li>
-      <li>This prototype uses community/location-level records and does not model individual or household-level data.</li>
-    </ul>
-  </section>
+<main class="main">
+<section class="intro"><div><span class="eyebrow">NT CONNECTIVITY &amp; COMMUNITY RESILIENCE</span><h1>Where connectivity needs a closer look.</h1><p>Explore the evidence, understand each community’s context, and save a practical offline plan.</p></div><div class="headline-kpis"><div><b id="kpiSites">188</b><small>Locations</small></div><div><b id="kpiSpots">48</b><small>Black Spot projects</small></div><div><b>6</b><small>Index dimensions</small></div></div></section>
+<div class="hero" id="explore">
+<section class="map-card" aria-label="Northern Territory connectivity map">
+  <div class="map-toolbar"><div class="map-title"><b>Explore the Northern Territory</b><span id="mapCount">188 locations</span></div><div class="mode-tabs" role="group" aria-label="Map colour mode"><button data-mode="index" class="active">Gap index</button><button data-mode="cyclone">Cyclone context</button><button data-mode="coverage">Infrastructure</button></div><button class="map-mini" id="mapFilters">☷ <span>Layers</span></button></div>
+  <div class="map-area" id="mapArea"><svg id="mapSvg" viewBox="0 0 800 550" preserveAspectRatio="xMidYMid slice" role="group" aria-label="NT locations. Select a location marker for a profile."></svg><div class="map-legend" id="mapLegend"><b>EXPLORATORY GAP INDEX</b><span><i style="background:#f16d66"></i>Higher (65–100)</span><span><i style="background:#e8b45f"></i>Moderate (45–64)</span><span><i style="background:#6dc2b0"></i>Lower (0–44)</span></div><div class="map-empty" id="mapEmpty" hidden>No locations match these filters.<button id="clearMapFilters" type="button">Clear filters</button></div><div class="map-actions"><button id="mapFocus" title="Focus selected" aria-label="Focus selected location">◎</button><button id="mapWhole" title="View whole NT" aria-label="Show whole NT">⤢</button><button id="mapZoomIn" title="Zoom in" aria-label="Zoom in">+</button><button id="mapZoomOut" title="Zoom out" aria-label="Zoom out">−</button></div><div class="map-footnote">Stylised offline geographic view · markers show source records, not mobile reception footprints</div></div>
+</section>
+<section class="profile-card" id="profileCard" aria-label="Selected location profile"><div id="profileContent"><div class="empty-state">Select a location to see its evidence and possible next steps.</div></div></section>
+</div>
+<section class="action-strip" aria-label="Next steps">
+ <article class="action-card ranking-card" id="rankingPreview"><div class="action-head"><div><span class="card-icon orange">▥</span><h2>Priority ranking</h2><p>Explore higher index values first.</p></div><button class="inline-link" id="viewRanking">View all →</button></div><div id="miniRanking" class="mini-ranking"></div><div class="micro-note">Illustrative data triage—not a verdict on service quality.</div></article>
+ <article class="action-card plan-card"><div class="action-head"><div><span class="card-icon cyan">◎</span><h2>Possible action plan</h2><p id="planSubtitle">Evidence-triggered investigations.</p></div><button class="inline-link" id="viewPlan">Details →</button></div><div id="miniPlan" class="mini-plan"></div></article>
+ <article class="action-card offline-card"><div class="action-head"><div><span class="card-icon purple">↓</span><h2>Offline resilience pack</h2><p>Readable information, saved for low-connectivity use.</p></div></div><div class="pack-list"><span>◈ Community profile &amp; map</span><span>✚ Local service listings</span><span>◉ Cyclone-history context</span><span>☏ Verified emergency numbers</span></div><div class="pack-buttons"><button class="btn primary" id="downloadPack">↓ Download HTML pack</button><button class="btn secondary" id="offlineMore">More options</button></div></article>
+</section>
+<footer class="foot"><span>Data: NT remote mobile coverage · Mobile Black Spot · ABS remoteness · NBN fixed-line layer · BOM historical cyclone tracks · official locality service listings</span><button id="methodologyLink">Methodology &amp; limitations ↗</button><small>Community consultation and technical verification are essential before investment decisions.</small></footer>
 </main>
-
-<footer>
-  Remote Connectivity NT · Data Innovation Challenge prototype
-</footer>
-
-<script src="data.js"></script>
-<script src="app.js"></script>
-</body>
-</html>
+</div>
+<div id="drawerShade" class="drawer-shade" hidden></div>
+<aside class="drawer" id="filtersDrawer" hidden aria-label="Map filters"><div class="drawer-heading"><div><span class="eyebrow">FOCUS YOUR EXPLORATION</span><h2>Filters &amp; layers</h2></div><button class="icon-button" id="closeFilters" aria-label="Close filters">×</button></div><p class="soft">Use one or several filters. Missing information stays explicitly marked as unknown.</p>
+<label>Site type<select id="siteFilter"><option value="">All types</option></select></label><label>Provider<select id="providerFilter"><option value="">All providers</option></select></label><label>Infrastructure classification<select id="coverageFilter"><option value="">All classifications</option></select></label><label>Remoteness<select id="remoteFilter"><option value="">All classes</option></select></label><label>Historical cyclone context<select id="cycloneFilter"><option value="">All levels</option></select></label><label>Population value<select id="populationFilter"><option value="">Known or missing</option><option value="known">Recorded</option><option value="missing">Not recorded</option></select></label><label>Essential service listing<select id="servicesFilter"><option value="">Any status</option><option value="listed">At least one listing</option><option value="health">Health listing</option><option value="school">School listing</option><option value="shelter">Shelter listing</option><option value="unknown">No matched listing / unknown</option></select></label>
+<label class="switch"><input id="higherOnly" type="checkbox"/> Show higher Gap Index only (65+)</label><div class="separator"></div><h3>Map layers</h3><label class="switch"><input id="layerSites" type="checkbox" checked/> NT mobile locations</label><label class="switch"><input id="layerSpots" type="checkbox" checked/> Mobile Black Spot projects</label><label class="switch"><input id="layerServices" type="checkbox"/> Locality service listings (approximate)</label><div class="drawer-end"><b id="resultsCount">188 locations match</b><button id="resetFilters" class="btn secondary">Reset all</button><button id="applyAndClose" class="btn primary">See results</button></div></aside>
+<div id="modalBackdrop" class="modal-backdrop" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><div class="dialog-heading"><h2 id="dialogTitle">Information</h2><button id="closeDialog" aria-label="Close dialog" class="icon-button">×</button></div><div id="dialogBody" class="dialog-body"></div></section></div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<script src="data.js"></script><script src="service_data.js"></script><script src="app.js"></script></body></html>

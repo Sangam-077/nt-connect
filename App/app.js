@@ -1,286 +1,82 @@
-
-const embedded = window.REMOTE_CONNECTIVITY_DATA || {};
-const state = {
-  mobile: Array.isArray(embedded.mobile) ? embedded.mobile : [],
-  blackspots: Array.isArray(embedded.blackspots) ? embedded.blackspots : [],
-  boundary: embedded.boundary || null,
-  filtered: [],
-  selected: null,
-  selectedPriority: null,
-  savedPacks: new Set(),
-  priorityMode: "combined",
-  rankingSort: {key:"gap_index", direction:"desc"},
-  simulatedOffline: false
-};
-
-const $ = id => document.getElementById(id);
-const NS = "http://www.w3.org/2000/svg";
-const fmt = v => (v === null || v === undefined || v === "" || Number.isNaN(v)) ? "Not available" : v;
-const clamp = (x,min,max) => Math.max(min, Math.min(max,x));
-
-function setNetworkStatus(){
-  const online = navigator.onLine && !state.simulatedOffline;
-  const el = $("networkStatus");
-  el.textContent = online ? "● Online" : "● Offline — local data";
-  el.className = online ? "status online" : "status offline";
-}
-window.addEventListener("online",setNetworkStatus);
-window.addEventListener("offline",setNetworkStatus);
-
-function safeGetSaved(){
-  try{
-    const arr = JSON.parse(localStorage.getItem("remoteConnectivitySavedLocations") || "[]");
-    if(Array.isArray(arr)) state.savedPacks = new Set(arr);
-  }catch(e){}
-}
-function persistSavedPacks(){
-  try{localStorage.setItem("remoteConnectivitySavedLocations",JSON.stringify([...state.savedPacks]));}catch(e){}
-  const count=state.savedPacks.size;
-  $("offlineSavedCount").textContent=`${count} location${count===1?"":"s"} saved offline`;
-}
-function uniqueSorted(values){return [...new Set(values.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b)))}
-function fillSelect(id,values){
-  const s=$(id);
-  uniqueSorted(values).forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;s.appendChild(o)})
-}
-
-function project(lon,lat,w=1000,h=900){
-  const minLon=128.5,maxLon=138.5,minLat=-26.5,maxLat=-10.0;
-  const x=70+((lon-minLon)/(maxLon-minLon))*(w-140);
-  const y=55+((maxLat-lat)/(maxLat-minLat))*(h-110);
-  return [x,y];
-}
-function geometryToPath(geometry,w=1000,h=900){
-  const parts=[];
-  const drawRing=ring=>{
-    if(!ring?.length)return;
-    const [x0,y0]=project(ring[0][0],ring[0][1],w,h);
-    let d=`M ${x0.toFixed(2)} ${y0.toFixed(2)}`;
-    for(let i=1;i<ring.length;i++){const [x,y]=project(ring[i][0],ring[i][1],w,h);d+=` L ${x.toFixed(2)} ${y.toFixed(2)}`}
-    parts.push(d+" Z");
-  };
-  if(geometry?.type==="Polygon")geometry.coordinates.forEach(drawRing);
-  else if(geometry?.type==="MultiPolygon")geometry.coordinates.forEach(poly=>poly.forEach(drawRing));
-  return parts.join(" ");
-}
-function addBoundary(svg,w=1000,h=900){
-  const feature=state.boundary?.features?.[0]; if(!feature)return;
-  const p=document.createElementNS(NS,"path");p.setAttribute("d",geometryToPath(feature.geometry,w,h));p.setAttribute("class","nt-boundary");svg.appendChild(p)
-}
-
-function searchCombined(query){
-  const q=query.trim().toLowerCase(); if(!q)return [];
-  const mobileMatches=state.mobile.filter(r=>String(r.site_name||"").toLowerCase().includes(q)).slice(0,6).map(r=>({type:"mobile",label:r.site_name,sub:`${r.site_type} · ${r.coverage_type}`,row:r}));
-  const bsMatches=state.blackspots.filter(r=>String(r.location||"").toLowerCase().includes(q)).slice(0,4).map(r=>({type:"blackspot",label:r.location,sub:`Black Spot · ${r.site_status}`,row:r}));
-  return [...mobileMatches,...bsMatches].slice(0,8);
-}
-function renderSearchResults(){
-  const box=$("searchResults"), q=$("searchInput").value;
-  const results=searchCombined(q);
-  if(!q.trim()||!results.length){box.hidden=true;box.innerHTML="";return}
-  box.innerHTML="";
-  results.forEach(item=>{
-    const b=document.createElement("button");b.type="button";b.className="search-result";
-    b.innerHTML=`${item.label}<small>${item.sub}</small>`;
-    b.addEventListener("click",()=>{
-      $("searchInput").value=item.label; box.hidden=true;
-      if(item.type==="mobile"){selectLocation(item.row); state.filtered=[item.row]; renderMap()}
-      else{selectBlackspot(item.row)}
-    });
-    box.appendChild(b);
-  });
-  box.hidden=false;
-}
-
-function renderMap(){
-  const svg=$("mapSvg");svg.innerHTML="";addBoundary(svg,1000,900);
-  if($("toggleMobile").checked){
-    state.filtered.forEach(row=>{
-      const lon=Number(row.longitude),lat=Number(row.latitude);if(!Number.isFinite(lon)||!Number.isFinite(lat))return;
-      const [x,y]=project(lon,lat);const c=document.createElementNS(NS,"circle");c.setAttribute("cx",x);c.setAttribute("cy",y);c.setAttribute("r",5);
-      c.setAttribute("class","mobile-marker"+(state.selected?.site_name===row.site_name?" selected":""));c.setAttribute("tabindex","0");
-      c.addEventListener("click",()=>selectLocation(row));c.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectLocation(row)}});
-      const t=document.createElementNS(NS,"title");t.textContent=`${row.site_name} — ${row.coverage_type}`;c.appendChild(t);svg.appendChild(c)
-    });
-  }
-  if($("toggleBlackspots").checked){
-    state.blackspots.forEach(row=>{
-      const lon=Number(row.longitude),lat=Number(row.latitude);if(!Number.isFinite(lon)||!Number.isFinite(lat))return;
-      const [x,y]=project(lon,lat);const p=document.createElementNS(NS,"path");p.setAttribute("d",`M ${x} ${y-7} L ${x-6} ${y+5} L ${x+6} ${y+5} Z`);p.setAttribute("class","blackspot-marker");p.setAttribute("tabindex","0");
-      p.addEventListener("click",()=>selectBlackspot(row));p.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectBlackspot(row)}});
-      const t=document.createElementNS(NS,"title");t.textContent=`Black Spot: ${row.location} — ${row.site_status}`;p.appendChild(t);svg.appendChild(p)
-    });
-  }
-  $("mapEmpty").hidden=state.filtered.length!==0;$("visibleCount").textContent=`${state.filtered.length} locations shown`
-}
-function applyFilters(){
-  const q=$("searchInput").value.trim().toLowerCase(),provider=$("providerFilter").value,coverage=$("coverageFilter").value,site=$("siteFilter").value,remote=$("remotenessFilter").value;
-  state.filtered=state.mobile.filter(row=>(!q||String(row.site_name||"").toLowerCase().includes(q))&&(!provider||row.provider===provider)&&(!coverage||row.coverage_type===coverage)&&(!site||row.site_type===site)&&(!remote||row.remoteness===remote));
-  renderMap();
-}
-function detailRow(label,value){return `<div class="detail-row"><span>${label}</span><strong>${fmt(value)}</strong></div>`}
-function selectLocation(row){
-  state.selected=row;$("detailEmpty").hidden=true;$("detailContent").hidden=false;$("detailName").textContent=row.site_name;
-  $("detailRows").innerHTML=[
-    detailRow("Site type",row.site_type),detailRow("Population",row.population),detailRow("Provider",row.provider),detailRow("Coverage",row.coverage_type),
-    detailRow("Remoteness",row.remoteness),detailRow("Nearest Black Spot",row.nearest_mbsp_location),
-    detailRow("Distance to nearest project",row.nearest_mbsp_distance_km!=null?`${row.nearest_mbsp_distance_km} km`:null),
-    detailRow("Nearest project status",row.nearest_mbsp_status),
-    detailRow("Inside supplied NBN fixed-line layer",row.nbn_fixedline_2024?"Yes":"No")
-  ].join("");
-  const saved=state.savedPacks.has(row.site_name);$("savePack").disabled=false;$("saveSelectedOffline").disabled=false;
-  $("savePack").textContent=saved?"Saved offline ✓":"Save this location offline";$("saveSelectedOffline").textContent=saved?"Saved offline ✓":`Save ${row.site_name} offline`;
-  $("saveMessage").textContent=saved?"This location is already stored in this browser.":"";
-  renderMap()
-}
-function selectBlackspot(row){
-  state.selected=null;$("detailEmpty").hidden=true;$("detailContent").hidden=false;$("detailName").textContent=`Black Spot: ${row.location}`;
-  $("detailRows").innerHTML=[detailRow("Project ID",row.mbsp_id),detailRow("Round",row.round),detailRow("Grantee",row.grantee),detailRow("Remoteness",row.remoteness),detailRow("Base station type",row.base_station_type),detailRow("Status",row.site_status),detailRow("Solution category",row.solution_category),detailRow("LGA",row.lga)].join("");
-  $("savePack").disabled=true;$("saveSelectedOffline").disabled=true;$("savePack").textContent="Offline save is for mobile locations";$("saveSelectedOffline").textContent="Select a mobile location to save"
-}
-
-function downloadBlob(filename,text,type){
-  const blob=new Blob([text],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)
-}
-function downloadJson(filename,payload){downloadBlob(filename,JSON.stringify(payload,null,2),"application/json")}
-function downloadPack(row){
-  const pack={generated_at:new Date().toISOString(),note:"Offline community pack generated from Remote Connectivity NT.",caution:"Infrastructure/program records do not directly measure mobile signal quality or reliability.",location:row};
-  state.savedPacks.add(row.site_name);persistSavedPacks();
-  try{localStorage.setItem(`remoteConnectivityLocation:${row.site_name}`,JSON.stringify(pack))}catch(e){}
-  downloadJson(`${String(row.site_name).toLowerCase().replace(/[^a-z0-9]+/g,"_")}_offline_pack.json`,pack);
-  $("savePack").textContent="Saved offline ✓";$("saveSelectedOffline").textContent="Saved offline ✓";$("saveMessage").textContent="Saved locally and downloaded as a JSON community pack."
-}
-
-/* Transparent, illustrative scoring */
-const maxKnownPop = Math.max(...state.mobile.map(r=>Number(r.population)||0),1);
-function mobileGap(r){
-  let s=80;
-  if(r.macro_cell)s-=50;
-  if(r.small_cell)s-=25;
-  if(r.proximity_to_cell)s-=5;
-  return clamp(s,5,95);
-}
-function nbnGap(r){return r.nbn_fixedline_2024?15:85}
-function remoteGap(r){
-  const x=String(r.remoteness||"");
-  if(x.includes("Very Remote"))return 90;
-  if(x.includes("Remote"))return 65;
-  if(x.includes("Outer Regional"))return 45;
-  if(x.includes("Inner Regional"))return 25;
-  return 35;
-}
-function interventionGap(r){
-  const d=Number(r.nearest_mbsp_distance_km);
-  if(!Number.isFinite(d))return 70;
-  if(r.mbsp_within_20km && r.nearest_mbsp_status==="In Progress")return 20;
-  if(r.mbsp_within_20km)return 35;
-  if(d<=50)return 55;
-  if(d<=100)return 70;
-  return 90;
-}
-function populationImpact(r){
-  const p=Number(r.population);
-  if(!Number.isFinite(p)||p<=0)return 20;
-  return Math.round(clamp((Math.log1p(p)/Math.log1p(maxKnownPop))*100,10,100));
-}
-function weights(){
-  return {
-    mobile:Number($("wMobile").value),nbn:Number($("wNbn").value),remote:Number($("wRemote").value),
-    intervention:Number($("wIntervention").value),population:Number($("wPopulation").value)
-  };
-}
-function scoredRow(r){
-  const comps={mobile_gap:mobileGap(r),nbn_gap:nbnGap(r),remote_gap:remoteGap(r),intervention_gap:interventionGap(r),population_impact:populationImpact(r)};
-  const w=weights();const total=w.mobile+w.nbn+w.remote+w.intervention+w.population||1;
-  const gap=(comps.mobile_gap*w.mobile+comps.nbn_gap*w.nbn+comps.remote_gap*w.remote+comps.intervention_gap*w.intervention+comps.population_impact*w.population)/total;
-  return {...r,...comps,gap_index:Math.round(gap)};
-}
-function rankedCommunities(){
-  return state.mobile.filter(r=>["COMMUNITY","VILLAGE"].includes(r.site_type)&&Number(r.population)>0).map(scoredRow)
-}
-function scoreClass(score){return score>=65?"high":score>=45?"moderate":"low"}
-function modeScore(r){
-  const s=scoredRow(r);
-  return state.priorityMode==="mobile"?s.mobile_gap:state.priorityMode==="nbn"?s.nbn_gap:state.priorityMode==="remote"?s.remote_gap:state.priorityMode==="intervention"?s.intervention_gap:state.priorityMode==="population"?s.population_impact:s.gap_index;
-}
-function pointRadius(r){const p=Number(r.population)||0;return clamp(5+Math.sqrt(p)/7,5,14)}
-
-function renderPriorityMap(){
-  const svg=$("priorityMapSvg");svg.innerHTML="";addBoundary(svg,1000,760);
-  rankedCommunities().forEach(r=>{
-    const [x,y]=project(Number(r.longitude),Number(r.latitude),1000,760);const score=modeScore(r);
-    const c=document.createElementNS(NS,"circle");c.setAttribute("cx",x);c.setAttribute("cy",y);c.setAttribute("r",pointRadius(r));c.setAttribute("class",`priority-point score-${scoreClass(score)}${state.selectedPriority?.site_name===r.site_name?" selected":""}`);
-    c.setAttribute("tabindex","0");c.addEventListener("click",()=>selectPriority(r));c.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectPriority(r)}});
-    const t=document.createElementNS(NS,"title");t.textContent=`${r.site_name}: ${Math.round(score)}/100`;c.appendChild(t);svg.appendChild(c)
-  })
-}
-function recommendations(s){
-  const drivers=[
-    ["Mobile infrastructure",s.mobile_gap],["NBN fixed-line",s.nbn_gap],["Remoteness",s.remote_gap],["Intervention distance",s.intervention_gap],["Population impact",s.population_impact]
-  ].sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
-  const recs=[];
-  if(drivers.includes("Mobile infrastructure"))recs.push("Validate on-the-ground mobile performance and investigate whether co-location, a dedicated small cell or macro-cell upgrade is feasible before investment.");
-  if(drivers.includes("NBN fixed-line"))recs.push("Check the actual NBN technology serving the location; this prototype only knows the fixed-line layer, so fixed wireless and satellite must be verified.");
-  if(drivers.includes("Remoteness"))recs.push("Prioritise resilient power, backhaul and offline-first access to essential digital services because of the location's remoteness.");
-  if(drivers.includes("Intervention distance"))recs.push("Review nearby Mobile Black Spot Program activity and whether a future co-investment or infrastructure-sharing opportunity exists.");
-  if(drivers.includes("Population impact"))recs.push("Include the number of residents and local service users affected when comparing this location with other investment candidates.");
-  return recs.slice(0,2);
-}
-function selectPriority(r){
-  const s=scoredRow(r);state.selectedPriority=s;
-  const top=[["Mobile coverage gap",s.mobile_gap],["NBN fixed-line gap",s.nbn_gap],["Remoteness",s.remote_gap],["Intervention distance",s.intervention_gap],["Population impact",s.population_impact]].sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]).join(", ");
-  $("priorityDetail").innerHTML=`<h3>${s.site_name} — Gap Index: ${s.gap_index}/100</h3><div>Population: ${fmt(s.population)} · largest drivers: ${top}</div><div class="driver-grid">
-    <div class="driver-box"><span>Mobile</span><strong>${s.mobile_gap}</strong></div><div class="driver-box"><span>NBN fixed-line</span><strong>${s.nbn_gap}</strong></div>
-    <div class="driver-box"><span>Remoteness</span><strong>${s.remote_gap}</strong></div><div class="driver-box"><span>Intervention</span><strong>${s.intervention_gap}</strong></div>
-    <div class="driver-box"><span>Population</span><strong>${s.population_impact}</strong></div></div>
-    ${recommendations(s).map(x=>`<div class="recommendation">${x}</div>`).join("")}`;
-  renderPriorityMap()
-}
-function renderRanking(){
-  const rows=rankedCommunities();const {key,direction}=state.rankingSort;const dir=direction==="asc"?1:-1;
-  rows.sort((a,b)=>{const av=a[key],bv=b[key];if(typeof av==="string")return av.localeCompare(bv)*dir;return ((Number(av)||0)-(Number(bv)||0))*dir});
-  const body=$("rankingTable").querySelector("tbody");body.innerHTML="";
-  rows.forEach(r=>{
-    const tr=document.createElement("tr");tr.innerHTML=`<td>${r.site_name}</td><td>${fmt(r.population)}</td><td>${r.mobile_gap}</td><td>${r.nbn_gap}</td><td>${r.remote_gap}</td><td>${r.intervention_gap}</td><td>${r.population_impact}</td><td><span class="score-badge badge-${scoreClass(r.gap_index)}">${r.gap_index}</span></td>`;
-    tr.addEventListener("click",()=>{selectPriority(r);document.querySelector("#priority").scrollIntoView({behavior:"smooth",block:"start"})});body.appendChild(tr)
-  })
-}
-function updatePriority(){
-  ["Mobile","Nbn","Remote","Intervention","Population"].forEach(name=>{$("v"+name).textContent=$( "w"+name).value});
-  renderPriorityMap();renderRanking();
-  if(state.selectedPriority)selectPriority(state.selectedPriority)
-}
-function rankingCsv(){
-  const rows=rankedCommunities().sort((a,b)=>b.gap_index-a.gap_index);
-  const headers=["community","population","mobile_gap","nbn_fixedline_gap","remoteness","intervention_distance","population_impact","gap_index"];
-  const lines=[headers.join(",")];
-  rows.forEach(r=>lines.push([r.site_name,r.population,r.mobile_gap,r.nbn_gap,r.remote_gap,r.intervention_gap,r.population_impact,r.gap_index].map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")));
-  return lines.join("\n");
-}
-
-function initialize(){
-  safeGetSaved();persistSavedPacks();setNetworkStatus();state.filtered=[...state.mobile];
-  fillSelect("providerFilter",state.mobile.map(d=>d.provider));fillSelect("coverageFilter",state.mobile.map(d=>d.coverage_type));fillSelect("siteFilter",state.mobile.map(d=>d.site_type));fillSelect("remotenessFilter",state.mobile.map(d=>d.remoteness));
-  $("metricLocations").textContent=state.mobile.length;$("metricVeryRemote").textContent=state.mobile.filter(d=>d.remoteness==="Very Remote Australia").length;$("metricBlackSpots").textContent=state.blackspots.length;$("metricInProgress").textContent=state.blackspots.filter(d=>d.site_status==="In Progress").length;
-  $("dataStatus").textContent=`Local data ready: ${state.mobile.length} locations + ${state.blackspots.length} Black Spot projects`;
-  $("healthText").textContent=`${state.mobile.length} mobile locations and ${state.blackspots.length} Black Spot projects loaded locally.`;
-  renderMap();updatePriority()
-}
-
-$("searchInput").addEventListener("input",()=>{renderSearchResults();applyFilters()});
-["providerFilter","coverageFilter","siteFilter","remotenessFilter"].forEach(id=>$(id).addEventListener("change",applyFilters));
-["toggleMobile","toggleBlackspots"].forEach(id=>$(id).addEventListener("change",renderMap));
-$("resetFilters").addEventListener("click",()=>{$("searchInput").value="";["providerFilter","coverageFilter","siteFilter","remotenessFilter"].forEach(id=>$(id).value="");$("searchResults").hidden=true;applyFilters()});
-$("savePack").addEventListener("click",()=>{if(state.selected)downloadPack(state.selected)});
-$("saveSelectedOffline").addEventListener("click",()=>{if(state.selected)downloadPack(state.selected)});
-$("downloadFiltered").addEventListener("click",()=>downloadJson("remote_connectivity_filtered_locations.json",{generated_at:new Date().toISOString(),count:state.filtered.length,locations:state.filtered}));
-document.querySelectorAll(".mode-pill").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".mode-pill").forEach(x=>x.classList.remove("active"));b.classList.add("active");state.priorityMode=b.dataset.mode;renderPriorityMap()}));
-["wMobile","wNbn","wRemote","wIntervention","wPopulation"].forEach(id=>$(id).addEventListener("input",updatePriority));
-$("resetWeights").addEventListener("click",()=>{$("wMobile").value=35;$("wNbn").value=20;$("wRemote").value=20;$("wIntervention").value=15;$("wPopulation").value=10;updatePriority()});
-$("communityPreset").addEventListener("click",()=>{$("wMobile").value=25;$("wNbn").value=15;$("wRemote").value=25;$("wIntervention").value=10;$("wPopulation").value=25;updatePriority()});
-document.querySelectorAll("#rankingTable th[data-sort]").forEach(th=>th.addEventListener("click",()=>{const key=th.dataset.sort;if(state.rankingSort.key===key)state.rankingSort.direction=state.rankingSort.direction==="asc"?"desc":"asc";else state.rankingSort={key,direction:key==="site_name"?"asc":"desc"};renderRanking()}));
-$("downloadRanking").addEventListener("click",()=>downloadBlob("remote_connectivity_priority_ranking.csv",rankingCsv(),"text/csv"));
-$("simulateOffline").addEventListener("click",()=>{state.simulatedOffline=!state.simulatedOffline;document.body.classList.toggle("simulated-offline",state.simulatedOffline);$("simulateOffline").textContent=state.simulatedOffline?"Return to online UI":"Simulate offline UI";setNetworkStatus()});
-
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}))}
-initialize();
+'use strict';
+(() => {
+const DATA=window.NT_CONNECT_DATA||{};
+const records=Array.isArray(DATA.mobile)?DATA.mobile:[];
+const spots=Array.isArray(DATA.blackspots)?DATA.blackspots:[];
+const boundary=DATA.boundary?.features?.[0]?.geometry;
+const listings=Array.isArray(window.NT_VERIFIED_SERVICES)?window.NT_VERIFIED_SERVICES:[];
+const $=id=>document.getElementById(id);
+const SVG='http://www.w3.org/2000/svg';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>v===null||v===undefined||v===''?null:Number.isFinite(Number(v))?Number(v):null;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const fmt=v=>num(v)===null?'Not recorded':new Intl.NumberFormat('en-AU',{maximumFractionDigits:0}).format(num(v));
+const title=s=>String(s??'').toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase());
+const km=v=>num(v)===null?'Not recorded':`${num(v).toFixed(1)} km`;
+const jsonStore=(key,otherwise)=>{try{return JSON.parse(localStorage.getItem(key))??otherwise}catch{return otherwise}};
+const store=(key,v)=>{try{localStorage.setItem(key,JSON.stringify(v));return true}catch{return false}};
+const WEIGHT_DEFAULT={mobile:30,nbn:15,remote:15,intervention:10,population:10,cyclone:20};
+const FIELDS=[['mobile','Mobile infrastructure'],['nbn','NBN fixed-line context'],['remote','Remoteness'],['intervention','Black Spot proximity'],['population','Population impact'],['cyclone','Historical cyclone context']];
+const savedWeights=jsonStore('nt-final-weights',WEIGHT_DEFAULT);
+const state={selected:records.find(r=>r.site_name==='RAMINGINING')||records[0]||null,filtered:[...records],mode:'index',zoom:1,view:'regional',layers:{sites:true,spots:true,services:false},weights:Object.fromEntries(FIELDS.map(([k])=>[k,clamp(num(savedWeights[k])??WEIGHT_DEFAULT[k],0,100)])),compare:jsonStore('nt-final-compare',[]).filter(n=>records.some(r=>r.site_name===n)).slice(0,2),saved:jsonStore('nt-final-saved',[])};
+const maxPop=Math.max(1,...records.map(r=>num(r.population)||0));
+const getRow=name=>records.find(r=>r.site_name===name)||null;
+const services=r=>listings.filter(s=>s.community===r.site_name);
+function parts(r){let mobile=80;if(r.has_macro_cell)mobile-=50;if(r.has_small_cell)mobile-=25;if(r.has_proximity_cell)mobile-=5;mobile=clamp(mobile,5,95);const remote=String(r.remoteness||'');const d=num(r.nearest_mbsp_distance_km);const p=num(r.population);return {mobile,nbn:typeof r.nbn_fixedline_2024==='boolean'?(r.nbn_fixedline_2024?15:85):null,remote:remote.includes('Very Remote')?90:remote.includes('Remote')?65:null,intervention:d===null?null:r.mbsp_within_20km&&r.nearest_mbsp_status==='In Progress'?20:r.mbsp_within_20km?35:d<=50?55:d<=100?70:90,population:p===null||p<0?null:clamp(Math.round(Math.log1p(p)/Math.log1p(maxPop)*100),10,100),cyclone:num(r.cyclone_exposure_context_score)}}
+function score(r){const x=parts(r);let weighted=0,wSum=0;for(const [k] of FIELDS){const weight=state.weights[k],val=x[k];if(weight>0&&num(val)!==null){weighted+=weight*val;wSum+=weight;}}return {value:wSum?Math.round(weighted/wSum):null,parts:x};}
+function ordered(){return state.filtered.filter(r=>['COMMUNITY','VILLAGE'].includes(r.site_type)&&num(r.population)!==null).slice().sort((a,b)=>(score(b).value??-1)-(score(a).value??-1)||a.site_name.localeCompare(b.site_name));}
+function classScore(n){return n===null?'low':n>=65?'high':n>=45?'moderate':'low';}
+function drivers(r){const p=parts(r);return FIELDS.map(([k,name])=>({k,name,value:p[k],weight:state.weights[k],impact:num(p[k])===null?-1:p[k]*state.weights[k]})).filter(d=>d.weight>0&&d.value!==null).sort((a,b)=>b.impact-a.impact);}
+function why(r){const results=[];for(const d of drivers(r)){if(d.k==='mobile')results.push(r.has_proximity_cell&&!r.has_macro_cell&&!r.has_small_cell?'The source lists proximity to a cell, not a dedicated macro or small cell at this location.':'The infrastructure classification contributes to the exploratory mobile component; actual reception requires local verification.');if(d.k==='nbn')results.push(r.nbn_fixedline_2024?'This location intersects the supplied 2024 NBN fixed-line polygon.':'This location is outside the supplied NBN fixed-line polygon; fixed wireless or satellite may still be available.');if(d.k==='remote')results.push(`${r.remoteness} makes service delivery and resilience important planning considerations.`);if(d.k==='intervention')results.push(`The nearest listed Black Spot project is ${r.nearest_mbsp_location||'not recorded'} (${km(r.nearest_mbsp_distance_km)}). Project proximity does not establish coverage.`);if(d.k==='population')results.push(`The source records population of ${fmt(r.population)} for this location; consider people and local service users.`);if(d.k==='cyclone')results.push(`${r.cyclone_exposure_context_level} historical cyclone-track context (${r.cyclone_exposure_context_score}/100 relative score), not a forecast or cyclone-risk probability.`);if(results.length===3)break;}return results;}
+function evidence(r){const s=services(r),checks=[['Coordinates',num(r.latitude)!==null&&num(r.longitude)!==null],['Location and site type',!!r.site_name&&!!r.site_type],['Provider and infrastructure',!!r.provider&&!!(r.has_macro_cell||r.has_small_cell||r.has_proximity_cell)],['Population',num(r.population)!==null],['ABS remoteness',!!r.remoteness],['Black Spot distance',num(r.nearest_mbsp_distance_km)!==null],['NBN fixed-line flag',typeof r.nbn_fixedline_2024==='boolean'],['Cyclone analysis',num(r.cyclone_exposure_context_score)!==null],['Published locality service listing',s.length>0]];return {checks,n:checks.filter(x=>x[1]).length,total:checks.length,pct:Math.round(100*checks.filter(x=>x[1]).length/checks.length),s};}
+function actions(r){const a=[];const add=(name,description,check)=>a.push({name,description,check});if(r.has_proximity_cell&&!r.has_macro_cell&&!r.has_small_cell)add('Assess dedicated mobile infrastructure','Investigate small-cell/macro feasibility and technical co-location.','Measure actual mobile service, check backhaul, power, terrain and carrier feasibility with the community.');else if(r.has_small_cell)add('Review small-cell resilience','Investigate coverage, capacity and backup infrastructure at the listed small-cell location.','Verify technology and reception with the operator before expanding.');else add('Validate mobile service performance','Infrastructure is listed, but this does not measure signal quality.','Check coverage and capacity at priority community service locations.');if(r.nbn_fixedline_2024===false)add('Verify alternate broadband and backhaul','Outside the supplied fixed-line layer; this does not mean no NBN.','Check satellite, fixed wireless and redundant backhaul availability.');if(num(r.nearest_mbsp_distance_km)!==null)add('Coordinate planned intervention',`Nearest Black Spot programme record: ${r.nearest_mbsp_location} (${km(r.nearest_mbsp_distance_km)}, ${r.nearest_mbsp_status}).`,'Check scope, operator, completion status and potential shared infrastructure.');if((num(r.cyclone_exposure_context_score)||0)>=65)add('Assess connectivity resilience','Historical cyclone-track context is relatively higher within the project dataset.','Assess backup power, redundant links and locally cached critical information.');if(services(r).length)add('Protect local service continuity','There are published service listings in this community.','Discuss offline access needs directly with health, education and shelter operators.');add('Consult community and Traditional Owners','Published records cannot replace lived experience or locally agreed priorities.','Validate displayed information and all proposals before an investment decision.');return a;}
+function toast(t){const el=$('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,3000);}
+function badge(v){return `<span class="pill ${v===null?'low':v>=65?'':'mid'}">${v??'—'}</span>`}
+function renderProfile(){const r=state.selected,c=$('profileContent');if(!r){c.innerHTML='<div class="empty-state">Select a location to explore its evidence.</div>';return;}const sc=score(r),ev=evidence(r),sv=ev.s,top=drivers(r)[0]?.name||'Several available indicators';const field=(label,value,cls='',description='')=>`<div class="evidence-tile ${cls}"><small>${esc(label)}</small><b>${esc(value)}</b><em>${esc(description)}</em></div>`;c.innerHTML=`<div class="profile-hero"><div class="profile-kicker">SELECTED SOURCE LOCATION</div><h2>${esc(title(r.site_name))}</h2><p>${esc(r.site_type)} · ${esc(r.remoteness||'Remoteness unavailable')}</p><span class="priority-pill">${classScore(sc.value)==='high'?'Higher index value':classScore(sc.value)==='moderate'?'Moderate index value':'Lower index value'} · exploratory</span></div><div class="profile-inside"><div class="profile-main"><div class="score-block"><small>GAP INDEX</small><div class="ring" style="--percent:${sc.value??0}"><span>${sc.value??'—'}</span></div><small>out of 100</small></div><div class="why-block"><h3>Why this location?</h3><p>${esc(why(r)[0]||'Available records can support local assessment.')} <button class="text-link" data-do="why">See full explanation →</button></p></div></div><div class="evidence-grid">${field('Mobile indicator',r.coverage_type||'Unknown','coral','Infrastructure class ≠ measured signal')}${field('NBN 2024 fixed-line',r.nbn_fixedline_2024?'Inside layer':'Outside layer','cyan','Does not assess satellite or wireless')}${field('Cyclone context',r.cyclone_exposure_context_level||'Unknown','amber',`Relative score ${r.cyclone_exposure_context_score??'—'}/100`)}${field('Data completeness',ev.pct+'%','green',`${ev.n} of ${ev.total} fields recorded`)}</div><div class="service-summary"><h4>Essential service directory <span class="source-tag">Pilot · locality-level</span></h4><div class="services-chips">${['health','school','shelter'].map(t=>{const matching=sv.filter(x=>x.type===t);return `<span class="service-chip ${matching.length?'':'missing'}">${t==='health'?'✚ Health':t==='school'?'▣ School':'⌂ Shelter'}: ${matching.length?'Listed':'Not established'}</span>`}).join('')}</div><p class="small-note">A missing listing does not mean a service is absent. <button class="text-link" data-do="services">View names &amp; sources ↗</button></p></div><div class="profile-actions"><button class="btn secondary" data-do="compareAdd">⇄ Compare</button><button class="btn primary" data-do="plan">◎ Action plan</button><button class="btn secondary" data-do="download">↓ Offline pack</button></div><div class="profile-foot">Population: ${fmt(r.population)} · nearest listed Black Spot: ${esc(km(r.nearest_mbsp_distance_km))}. ${esc(top)} is among the leading weighted drivers. Score is illustrative, not an investment decision.</div></div>`;}
+function renderRanking(){const box=$('miniRanking');box.innerHTML=ordered().slice(0,5).map((r,i)=>{const n=score(r).value;return `<button class="rank-row ${state.selected?.site_name===r.site_name?'selected':''}" data-pick="${esc(r.site_name)}"><span>${i+1}</span><span>${esc(title(r.site_name))}</span><span class="bar"><i style="width:${n??0}%"></i></span><b>${n??'—'}</b></button>`}).join('')||'<p class="small-note">No ranked communities match the current filters.</p>';}
+function renderPlan(){const r=state.selected; $('planSubtitle').textContent=r?`Preliminary options for ${title(r.site_name)}.`:'Select a community';$('miniPlan').innerHTML=r?actions(r).slice(0,3).map((a,i)=>`<div class="plan-brief"><b class="number">${i+1}</b><div><b>${esc(a.name)}</b><span>${esc(a.description)}</span></div></div>`).join(''):'<p>Select a community to see action options.</p>';}
+function project(lon,lat){return [54+(lon-128.45)/(138.65-128.45)*688,42+(-10.0-lat)/(-10.0+26.6)*770]}
+function geoPath(geom){if(!geom)return '';return (geom.type==='MultiPolygon'?geom.coordinates:[geom.coordinates]).map(poly=>poly.map(ring=>ring.map(([lon,lat],i)=>{const[x,y]=project(lon,lat);return`${i?'L':'M'}${x.toFixed(1)},${y.toFixed(1)}`}).join(' ')+' Z').join(' ')).join(' ')}
+const pathNT=geoPath(boundary);
+function svg(tag,attrs={},parent){const n=document.createElementNS(SVG,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,String(v)));parent?.appendChild(n);return n;}
+function txt(group,x,y,value,klass){const el=svg('text',{x,y,class:klass},group);el.textContent=value;return el;}
+function dotColor(r){if(state.mode==='cyclone'){let n=num(r.cyclone_exposure_context_score);return n===null?'#80919f':n>=67?'#f16d66':n>=34?'#e8b45f':'#6dc2b0'}if(state.mode==='coverage')return r.has_macro_cell?'#6eafe2':r.has_small_cell?'#e8b45f':'#f16d66';const n=score(r).value;return n===null?'#8399a7':n>=65?'#f16d66':n>=45?'#e8b45f':'#6dc2b0'}
+function renderMap(){const m=$('mapSvg');const height=(state.view==='full'?860:640)/state.zoom;const yPos=state.selected?project(num(state.selected.longitude),num(state.selected.latitude))[1]:150;let y0=state.view==='full'&&state.zoom===1?0:clamp(yPos-height*.33,0,860-height);m.setAttribute('viewBox',`0 ${y0.toFixed(2)} 800 ${height.toFixed(2)}`);m.innerHTML=`<image href="assets/nt_terrain.jpg" x="0" y="0" width="800" height="860" preserveAspectRatio="none"/><rect width="800" height="860" fill="#061b2c" opacity=".09"/><path d="${pathNT}" fill="none" stroke="#cfdfbf" stroke-width="1.1" opacity=".75"/><text x="210" y="70" class="water-label">TIMOR SEA</text><text x="510" y="60" class="water-label">ARAFURA SEA</text><text x="360" y="470" class="land-label">NORTHERN</text><text x="365" y="493" class="land-label">TERRITORY</text>`;const o=svg('g',{},m);[['Darwin',130.8456,-12.4634],['Katherine',132.2635,-14.4652],['Tennant Creek',134.187,-19.649],['Alice Springs',133.8807,-23.698],['Nhulunbuy',136.7786,-12.185]].forEach(([name,lon,lat])=>{const [x,y]=project(lon,lat);svg('circle',{cx:x,cy:y,r:3.3,fill:'#e8d7b1'},o);txt(o,x+7,y-5,name,'place-label');});if(state.layers.spots){const g=svg('g',{},m);spots.forEach(s=>{const lon=num(s.longitude),lat=num(s.latitude);if(lon===null||lat===null)return;const [x,y]=project(lon,lat);const p=svg('path',{d:`M${x},${y-4}L${x-4},${y+3}L${x+4},${y+3}Z`,class:'blackspot-marker',tabindex:0,role:'button','aria-label':`Black Spot project ${s.location}`},g);p.addEventListener('click',()=>openDialog('Black Spot project',`<h3>${esc(s.location)}</h3><p>Status: ${esc(s.site_status)} · ${esc(s.base_station_type||'Type not recorded')}</p><p>Project proximity does not measure actual network coverage.</p>`));});}if(state.layers.sites){const g=svg('g',{},m);state.filtered.forEach(r=>{if(r.site_name===state.selected?.site_name)return;const x=num(r.longitude),y=num(r.latitude);if(x===null||y===null)return;const [px,py]=project(x,y);const c=svg('circle',{cx:px,cy:py,r:r.site_type==='COMMUNITY'?3.5:2.6,fill:dotColor(r),class:'site-marker',tabindex:0,role:'button','aria-label':`Select ${r.site_name}`},g);c.addEventListener('click',()=>select(r));c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(r)}});svg('title',{},c).textContent=`${r.site_name} · ${r.coverage_type}`;});}
+if(state.layers.services){const g=svg('g',{},m);state.filtered.filter(r=>services(r).length).forEach(r=>{const[x,y]=project(num(r.longitude),num(r.latitude));const t=txt(g,x+5,y+9,'✚','service-marker');t.setAttribute('tabindex','0');t.setAttribute('role','button');t.setAttribute('aria-label',`${r.site_name} has published locality service listings`);t.addEventListener('click',()=>{select(r);serviceDialog()});});}
+if(state.selected&&state.filtered.includes(state.selected)){const r=state.selected,[x,y]=project(num(r.longitude),num(r.latitude));const g=svg('g',{},m);svg('circle',{cx:x,cy:y,r:28,class:'select-pulse'},g);svg('circle',{cx:x,cy:y,r:14,class:'select-ring'},g);svg('circle',{cx:x,cy:y,r:7,class:'select-core'},g);const width=clamp(title(r.site_name).length*7+18,98,190),right=x<510,rx=clamp(right?x+22:x-width-22,8,800-width-8),ry=clamp(y-29,50,777);svg('line',{x1:x,y1:y,x2:right?rx:rx+width,y2:ry+18,class:'selected-link'},g);svg('rect',{x:rx,y:ry,width,height:39,rx:8,class:'selected-plate'},g);txt(g,rx+10,ry+17,title(r.site_name),'selected-label');txt(g,rx+10,ry+31,`Index ${score(r).value??'—'} · select in profile`,'selected-meta');}
+$('mapCount').textContent=`${state.filtered.length} visible locations · ${spots.length} Black Spot projects`;$('mapEmpty').hidden=state.filtered.length>0||!state.layers.sites;const legends=state.mode==='index'?['EXPLORATORY GAP INDEX',['#f16d66','Higher (65–100)'],['#e8b45f','Moderate (45–64)'],['#6dc2b0','Lower (0–44)']]:state.mode==='cyclone'?['RELATIVE CYCLONE CONTEXT',['#f16d66','Higher'],['#e8b45f','Moderate'],['#6dc2b0','Lower']]:['INFRASTRUCTURE CLASS',['#6eafe2','Macro cell'],['#e8b45f','Small cell'],['#f16d66','Proximity / mixed']];$('mapLegend').innerHTML=`<b>${legends[0]}</b>`+legends.slice(1).map(([color,label])=>`<span><i style="background:${color}"></i>${label}</span>`).join('');}
+function select(r){state.selected=r;state.view='regional';state.zoom=1;if(!state.filtered.some(x=>x.site_name===r.site_name)){clearFilters();}renderAll();}
+function renderAll(){renderMap();renderProfile();renderRanking();renderPlan();$('kpiSites').textContent=records.length;$('kpiSpots').textContent=spots.length;}
+function getFilterValues(){return {site:$('siteFilter').value,provider:$('providerFilter').value,coverage:$('coverageFilter').value,remote:$('remoteFilter').value,cyclone:$('cycloneFilter').value,pop:$('populationFilter').value,service:$('servicesFilter').value,high:$('higherOnly').checked}}
+function filterRows(){const f=getFilterValues();state.filtered=records.filter(r=>(!f.site||r.site_type===f.site)&&(!f.provider||r.provider===f.provider)&&(!f.coverage||r.coverage_type===f.coverage)&&(!f.remote||r.remoteness===f.remote)&&(!f.cyclone||r.cyclone_exposure_context_level===f.cyclone)&&(!f.pop||(f.pop==='known'?num(r.population)!==null:num(r.population)===null))&&(!f.service||(f.service==='unknown'?!services(r).length:f.service==='listed'?services(r).length:services(r).some(s=>s.type===f.service)))&&(!f.high||(score(r).value??0)>=65));if(state.filtered.length&&!state.filtered.includes(state.selected))state.selected=state.filtered[0];if(!state.filtered.length)state.selected=null;const active=[f.site,f.provider,f.coverage,f.remote,f.cyclone,f.pop,f.service,f.high].filter(Boolean).length;$('filterBadge').textContent=active;$('filterBadge').hidden=!active;$('resultsCount').textContent=`${state.filtered.length} mobile locations match`;renderAll();}
+function clearFilters(){['siteFilter','providerFilter','coverageFilter','remoteFilter','cycloneFilter','populationFilter','servicesFilter'].forEach(id=>$(id).value='');$('higherOnly').checked=false;filterRows();}
+function populate(){[['siteFilter','site_type'],['providerFilter','provider'],['coverageFilter','coverage_type'],['remoteFilter','remoteness'],['cycloneFilter','cyclone_exposure_context_level']].forEach(([id,key])=>{[...new Set(records.map(r=>r[key]).filter(Boolean))].sort().forEach(v=>{const el=document.createElement('option');el.value=v;el.textContent=title(v);$(id).appendChild(el);});});}
+function openFilters(){closeDialog();$('filtersDrawer').hidden=false;$('drawerShade').hidden=false;$('closeFilters').focus();}
+function closeFilters(){$('filtersDrawer').hidden=true;$('drawerShade').hidden=true;}
+function openDialog(heading,body){closeFilters();$('dialogTitle').textContent=heading;$('dialogBody').innerHTML=body;$('modalBackdrop').hidden=false;$('closeDialog').focus();}
+function closeDialog(){$('modalBackdrop').hidden=true;}
+const numbers=[['Life-threatening emergency','000','https://nt.gov.au/emergency/emergencies/contact-an-emergency-service'],['NT Emergency Service — storm, flood and cyclone assistance','132 500','https://nt.gov.au/emergency/emergencies/contact-an-emergency-service'],['Non-urgent NT police assistance','131 444','https://nt.gov.au/emergency/emergencies/contact-an-emergency-service'],['Healthdirect — 24-hour advice','1800 022 222','https://nt.gov.au/emergency/emergencies/crisis-and-support-helplines']];
+function emergencyHTML(){return `<div class="source-note"><b>Saved emergency reference · checked 29 September 2026.</b><br>Telephone calls still require a working phone network. Offline pages do not provide live alerts or indicate which shelters are open. For life-threatening emergencies, dial 000 where telephone service is available.</div><div class="emergency-list">${numbers.map(([name,n,source])=>`<div class="emergency-card"><b>${esc(name)}</b><a href="tel:${n.replace(/\s/g,'')}">${esc(n)}</a><small>Official NT Government reference · <a href="${source}" target="_blank" rel="noopener">Source ↗</a></small></div>`).join('')}</div><p>Check current alerts and directions with <a href="https://securent.nt.gov.au/" target="_blank" rel="noopener">SecureNT</a> whenever connected.</p>`;}
+function serviceHTML(r){const s=services(r);return `<p>Official community-level pilot directory checked 29 September 2026. It does not establish exact coordinates, present operating hours or whether a service is available during an event.</p>${['health','school','shelter'].map(t=>{const m=s.filter(x=>x.type===t);return `<h3>${title(t)}</h3>${m.length?m.map(x=>`<div class="directory-row"><div><b>${esc(x.name)}</b><small>${esc(x.source)}</small></div>${x.phone?`<a href="tel:${x.phone.replace(/[^0-9+]/g,'')}">${esc(x.phone)}</a>`:''}</div>`).join(''):'<div class="info-box">Not established in this limited directory; this is not evidence of absence.</div>'}`}).join('')}<div class="source-note">Sources: <a href="https://nt.gov.au/wellbeing/remote-health/remote-health-services" target="_blank" rel="noopener">NT Remote Health</a> and <a href="https://securent.nt.gov.au/prepare-for-an-emergency/emergency-planning/shelter-locations/all-shelters" target="_blank" rel="noopener">SecureNT shelter directory</a>. School coverage is incomplete.</div>`}
+function serviceDialog(){if(!state.selected)return;openDialog(`${title(state.selected.site_name)} · Essential services`,serviceHTML(state.selected));}
+function confidenceDialog(){const r=state.selected;if(!r)return;const ev=evidence(r);openDialog('Data confidence · record completeness',`<p>This indicates the proportion of <b>nine specified fields</b> available for ${esc(title(r.site_name))}. It is not the accuracy of mobile coverage or a statistical confidence interval.</p><h3>${ev.pct}% of selected source fields present (${ev.n}/${ev.total})</h3><div class="confidence-checks">${ev.checks.map(([n,ok])=>`<div class="confidence-check ${ok?'ok':'missing'}">${ok?'✓':'—'} ${esc(n)}</div>`).join('')}</div>`)}
+function whyDialog(){const r=state.selected;if(!r)return;openDialog('Why this location?',`<p>The Gap Index uses a weighted combination of existing data dimensions. These are the main evidence contributions for ${esc(title(r.site_name))}:</p><ol>${why(r).map(s=>`<li>${esc(s)}</li>`).join('')}</ol><p class="source-note">Index values are exploratory and depend on user-selected weights. They do not measure actual reception, future cyclone probability or a recommended investment decision.</p><button class="btn secondary" id="openWeights">Adjust weights</button>`);$('openWeights').onclick=weightDialog;}
+function planDialog(){const r=state.selected;if(!r)return;openDialog(`Possible action plan · ${title(r.site_name)}`,`<p>Options for <b>technical and community-led investigation</b>, not engineering approvals or confirmed investment recommendations.</p><div class="plan-list">${actions(r).map((a,i)=>`<div class="info-box"><h3>${i+1}. ${esc(a.name)}</h3><p>${esc(a.description)}</p><p><b>Check:</b> ${esc(a.check)}</p></div>`).join('')}</div><div class="modal-actions"><button id="downloadPlan" class="btn primary">↓ Download action plan JSON</button></div>`);$('downloadPlan').onclick=()=>downloadJson(`${slug(r.site_name)}_action_plan.json`,{community:r.site_name,generated_at:new Date().toISOString(),notice:'Preliminary evidence-triggered investigations. Requires local and technical validation.',actions:actions(r)});}
+function slug(s){return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');}
+function downloadBlob(filename,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function downloadJson(name,obj){downloadBlob(name,JSON.stringify(obj,null,2),'application/json');}
+function packHTML(r){const sc=score(r),e=evidence(r),s=services(r),now=new Date().toISOString();const style=`body{font:15px/1.6 system-ui,Arial;color:#152b3d;background:#f7fafb;max-width:880px;margin:24px auto;padding:25px}h1,h2{color:#0d3e53}header{background:#102b42;color:#fff;padding:24px;border-radius:14px}header h1{color:#fff;margin:0}article{background:white;border:1px solid #d7e2e8;border-radius:11px;padding:16px;margin:13px 0}b{color:#183d51}table{border-collapse:collapse;width:100%}td,th{padding:7px;border-bottom:1px solid #dce8ec;text-align:left}small{color:#52677b}a{color:#196582}@media print{body{background:#fff;margin:0}article{break-inside:avoid}}`;return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NT Connect · ${esc(title(r.site_name))} offline pack</title><style>${style}</style></head><body><header><h1>${esc(title(r.site_name))}</h1><div>NT Connect · Saved offline community planning pack</div><div>Generated ${esc(now.slice(0,10))} · Source-data periods vary · NOT a live emergency bulletin</div></header><article><h2>Community context</h2><table><tr><td>Exploratory Gap Index</td><td>${sc.value??'Unknown'}/100</td></tr><tr><td>Population in supplied dataset</td><td>${fmt(r.population)}</td></tr><tr><td>Remoteness</td><td>${esc(r.remoteness||'Unknown')}</td></tr><tr><td>Mobile infrastructure class</td><td>${esc(r.coverage_type||'Unknown')}</td></tr><tr><td>NBN fixed-line 2024 layer</td><td>${r.nbn_fixedline_2024?'Inside supplied polygon':'Outside supplied polygon — wireless/satellite not assessed'}</td></tr><tr><td>Closest listed Black Spot project</td><td>${esc(r.nearest_mbsp_location||'Unknown')} (${km(r.nearest_mbsp_distance_km)})</td></tr><tr><td>Historical cyclone context</td><td>${esc(r.cyclone_exposure_context_level||'Unknown')}, relative ${r.cyclone_exposure_context_score??'—'}/100</td></tr><tr><td>Data completeness</td><td>${e.pct}% (${e.n}/${e.total} fields)</td></tr></table></article><article><h2>Local service directory · pilot</h2>${s.length?s.map(x=>`<p><b>${esc(title(x.type))}: ${esc(x.name)}</b><br>${esc(x.phone||'No phone in source record')} · ${esc(x.source)}</p>`).join(''):'<p>No matched services in this limited listing. This does not imply no services exist.</p>'}<small>Community-level names only. Check opening and accuracy before relying on them.</small></article><article><h2>Possible action plan</h2><ol>${actions(r).map(a=>`<li><b>${esc(a.name)}</b> — ${esc(a.description)}<br>Investigate: ${esc(a.check)}</li>`).join('')}</ol></article><article><h2>Emergency phone reference</h2>${numbers.map(([n,phone])=>`<p><b>${esc(n)}:</b> ${esc(phone)}</p>`).join('')}<strong>Telephone network needed to make calls. No current alert or shelter-opening status is bundled.</strong></article><article><h2>Evidence & interpretation</h2><p>Historical cyclone tracks do not measure future cyclone probability or local damage. NBN analysis covers the supplied fixed-line polygon, not all broadband technologies. Infrastructure indicators do not measure actual mobile quality. Gap Index scores are exploratory.</p><p>Source organisations: NT Government remote-area mobile coverage; NT Mobile Black Spot programme; ABS remoteness; NBN fixed-line 2024; Bureau of Meteorology historical cyclone tracks; NT Government and SecureNT locality directories.</p><p>Community and Traditional Owner consultation is necessary before external publication or investment decisions.</p></article></body></html>`;}
+function downloadPack(){const r=state.selected;if(!r)return;downloadBlob(`${slug(r.site_name)}_nt_connect_offline.html`,packHTML(r),'text/html');if(!state.saved.includes(r.site_name)){state.saved.push(r.site_name);store('nt-final-saved',state.saved);}toast(`${title(r.site_name)} offline report downloaded`);}
+function downloadPackMenu(){const r=state.selected;if(!r)return;openDialog(`Offline resilience · ${title(r.site_name)}`,`<p>The HTML community report is self-contained, readable and printable without a network connection after download. The app itself uses a local service-worker cache after a successful first load.</p><div class="modal-grid"><div class="info-box"><b>✓ Community profile</b><span>Mobile, remoteness, fixed-line context, Black Spot and cyclone indicators.</span></div><div class="info-box"><b>✓ Published local service listings</b><span>Community-level records, not live availability or exact GPS.</span></div><div class="info-box"><b>✓ Preliminary action plan</b><span>Evidence-triggered investigation options for technical/community review.</span></div><div class="info-box"><b>✓ Emergency phone reference</b><span>Known official numbers only. A working telephone network is required to call.</span></div></div><div class="modal-actions"><button id="modalPack" class="btn primary">↓ Save readable HTML report</button><button id="modalJson" class="btn secondary">↓ Save raw JSON pack</button></div>`);$('modalPack').onclick=downloadPack;$('modalJson').onclick=()=>downloadJson(`${slug(r.site_name)}_nt_connect_data.json`,{record:r,index:score(r),local_service_listings:services(r),actions:actions(r),emergency_contacts:numbers.map(([name,phone,url])=>({name,phone,url})),notice:'Offline planning reference; not live alerts or measured network quality.'});}
+function methodologyDialog(){openDialog('Sources & methodology',`<h3>What NT Connect does</h3><p>Combines supplied remote NT mobile-site classification, population, ABS remoteness, Mobile Black Spot projects, 2024 NBN fixed-line polygons, historical BOM cyclone tracks and a conservative official community-level service directory.</p><h3>How the exploratory index works</h3><p>Weights are user adjustable. Missing numeric components are excluded and remaining weights re-normalised. A higher value means further investigation, not proof of bad signal, need, or investment worth.</p><div class="modal-actions"><button id="showWeights" class="btn secondary">Adjust index weights</button></div><h3>Limitations</h3><p>Proximity-to-cell is not signal quality. No intersection with fixed-line NBN does not rule out fixed wireless or satellite. Cyclone context is a within-dataset historical comparison, not a hazard or risk forecast. Service records are community-level, not precise GPS or current opening times. Population may be absent for highway/tourism locations.</p><h3>Responsible use</h3><p>Consult communities and Traditional Owners about data, how it is displayed, cultural implications and proposed interventions. Respect Indigenous Data Sovereignty. No individual or household data included.</p><p>Emergency references: <a href="https://nt.gov.au/emergency/emergencies/contact-an-emergency-service" target="_blank" rel="noopener">NT Government emergency contacts</a> and <a href="https://nt.gov.au/emergency/emergencies/crisis-and-support-helplines" target="_blank" rel="noopener">support lines</a>.</p>`);$('showWeights').onclick=weightDialog;}
+function weightDialog(){const rows=FIELDS.map(([k,v])=>`<label class="slider-row"><span>${esc(v)}</span><input type="range" data-weight="${k}" min="0" max="100" value="${state.weights[k]}"/><b id="weight_${k}">${state.weights[k]}</b></label>`).join('');openDialog('Scenario weights · Gap Index',`<p>Adjust which evidence dimensions affect the illustrative Gap Index. These values are automatically normalised. Cyclone context is a relative historical indicator.</p>${rows}<div class="modal-actions"><button class="btn secondary" id="resetWeights">Reset defaults</button><button class="btn primary" id="closeWeights">Apply to map and ranking</button></div>`);$('dialogBody').querySelectorAll('[data-weight]').forEach(input=>input.oninput=()=>{state.weights[input.dataset.weight]=Number(input.value);$('weight_'+input.dataset.weight).textContent=input.value;store('nt-final-weights',state.weights);filterRows();});$('resetWeights').onclick=()=>{state.weights={...WEIGHT_DEFAULT};store('nt-final-weights',state.weights);weightDialog();filterRows();};$('closeWeights').onclick=closeDialog;}
+function rankingDialog(){openDialog('All priority-ranked communities',`<p>This table ranks community/village records with recorded population using the current user-adjustable weights. It is an exploratory data triage, not an investment verdict.</p><div style="overflow:auto;max-height:55vh"><table class="data-table"><thead><tr><th>#</th><th>Location</th><th>Gap Index</th><th>Population</th><th>Cyclone context</th><th>Remoteness</th></tr></thead><tbody>${ordered().map((r,i)=>`<tr data-select="${esc(r.site_name)}"><td>${i+1}</td><td>${esc(title(r.site_name))}</td><td>${badge(score(r).value)}</td><td>${fmt(r.population)}</td><td>${esc(r.cyclone_exposure_context_level||'Unknown')}</td><td>${esc(r.remoteness||'Unknown')}</td></tr>`).join('')}</tbody></table></div><div class="modal-actions"><button class="btn secondary" id="rankingCSV">↓ Download ranked CSV</button><button class="btn secondary" id="rankingWeights">Edit weights</button></div>`);$('rankingCSV').onclick=()=>{const rows=[['Location','Index','Population','Remoteness','Coverage class','NBN fixed-line 2024','Historical cyclone context'],...ordered().map(r=>[r.site_name,score(r).value,r.population??'',r.remoteness,r.coverage_type,r.nbn_fixedline_2024?'Inside':'Outside',r.cyclone_exposure_context_score??''])];downloadBlob('nt_connect_priority_ranking.csv',rows.map(a=>a.map(x=>'"'+String(x??'').replace(/"/g,'""')+'"').join(',')).join('\r\n'),'text/csv;charset=utf-8');};$('rankingWeights').onclick=weightDialog;$('dialogBody').querySelectorAll('[data-select]').forEach(tr=>tr.onclick=()=>{select(getRow(tr.dataset.select));closeDialog();});}
+function compareAdd(r=state.selected){if(!r)return;if(state.compare.includes(r.site_name)){compareDialog();return;}if(state.compare.length>=2)state.compare.shift();state.compare.push(r.site_name);store('nt-final-compare',state.compare);toast(`${title(r.site_name)} added to comparison`);compareDialog();}
+function compareDialog(){const options=records.filter(r=>['COMMUNITY','VILLAGE'].includes(r.site_type)).map(r=>`<option value="${esc(r.site_name)}">${esc(title(r.site_name))}</option>`).join('');const selected=state.compare.map(getRow).filter(Boolean);let body=`<p>Compare records side by side. Differences are descriptive, not a criteria-specific investment verdict.</p><div class="modal-actions"><select id="comparePicker"><option value="">Add another community…</option>${options}</select><button class="btn secondary" id="clearCompare">Clear comparison</button></div>`;if(selected.length){const fields=[['Index',r=>score(r).value??'—'],['Population',r=>fmt(r.population)],['Infrastructure class',r=>r.coverage_type],['Remoteness',r=>r.remoteness],['Outside fixed-line NBN 2024',r=>r.nbn_fixedline_2024?'No':'Yes — other technologies unknown'],['Cyclone context',r=>`${r.cyclone_exposure_context_score??'—'} (${r.cyclone_exposure_context_level})`],['Data completeness',r=>`${evidence(r).pct}%`],['Local service listings',r=>services(r).length]];body+=`<div class="compare-grid"><b>Field</b><b>${esc(title(selected[0].site_name))}</b><b>${selected[1]?esc(title(selected[1].site_name)):'Add another location'}</b>${fields.map(([name,fn])=>`<span>${esc(name)}</span><span>${esc(fn(selected[0]))}</span><span>${selected[1]?esc(fn(selected[1])):'—'}</span>`).join('')}</div>`;}openDialog('Compare communities',body);$('comparePicker').onchange=e=>{const r=getRow(e.target.value);if(r)compareAdd(r);};$('clearCompare').onclick=()=>{state.compare=[];store('nt-final-compare',[]);compareDialog();};}
+function searchResults(){const q=$('searchInput').value.trim().toLowerCase(),box=$('searchSuggestions');if(!q){box.hidden=true;box.innerHTML='';return;}const hits=records.filter(r=>r.site_name.toLowerCase().includes(q)).slice(0,7).map(r=>({name:r.site_name,type:`${r.site_type} · ${r.coverage_type}`,kind:'site'}));const spotHits=spots.filter(r=>String(r.location||'').toLowerCase().includes(q)).slice(0,3).map(r=>({name:r.location,type:`Black Spot · ${r.site_status}`,kind:'spot'}));const found=hits.concat(spotHits);box.innerHTML=found.map((r,i)=>`<button class="suggestion" data-index="${i}">${esc(title(r.name))}<small>${esc(r.type)}</small></button>`).join('')||'<div style="padding:12px">No name match in the available NT datasets.</div>';box.hidden=false;box.querySelectorAll('[data-index]').forEach(b=>b.onclick=()=>{const f=found[Number(b.dataset.index)];if(f.kind==='site'){select(getRow(f.name));}else{const s=spots.find(x=>x.location===f.name);openDialog(`Mobile Black Spot · ${title(s.location)}`,`<p>${esc(s.site_status)} · ${esc(s.base_station_type||'Type not recorded')}</p><p>This layer contains programme project records, not comprehensive reception measurements.</p>`);}box.hidden=true;$('searchInput').value=title(f.name);});}
+function updateNetwork(){const online=navigator.onLine,controlled=!!navigator.serviceWorker?.controller;const el=$('networkStatus');el.textContent=online?controlled?'● Online · offline app cached':'● Online · preparing offline cache':'● Offline · local data';el.classList.toggle('offline',!online);}
+function route(which){document.querySelectorAll('.rail-link').forEach(b=>b.classList.toggle('active',b.dataset.route===which));if(which==='home'){$('explore').scrollIntoView({block:'start',behavior:'smooth'});return;}if(which==='ranking')rankingDialog();if(which==='compare')compareDialog();if(which==='plan')planDialog();if(which==='offline')downloadPackMenu();if(which==='emergency')openDialog('Verified emergency reference',emergencyHTML());if(which==='methodology')methodologyDialog();}
+// Bind all visible controls. Every displayed action has a working destination.
+function bind(){populate();['siteFilter','providerFilter','coverageFilter','remoteFilter','cycloneFilter','populationFilter','servicesFilter','higherOnly'].forEach(id=>$(id).addEventListener('change',filterRows));$('searchInput').addEventListener('input',searchResults);$('searchInput').addEventListener('keydown',e=>{if(e.key==='Escape')$('searchSuggestions').hidden=true;if(e.key==='Enter'){const b=$('searchSuggestions').querySelector('[data-index]');if(b)b.click();}});document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))$('searchSuggestions').hidden=true;const p=e.target.closest('[data-do]');if(p){const k=p.dataset.do;if(k==='why')whyDialog();if(k==='services')serviceDialog();if(k==='compareAdd')compareAdd();if(k==='plan')planDialog();if(k==='download')downloadPack();if(k==='confidence')confidenceDialog();}});$('topFilter').onclick=$('mapFilters').onclick=openFilters;$('topEmergency').onclick=()=>openDialog('Verified emergency reference',emergencyHTML());$('closeFilters').onclick=$('drawerShade').onclick=$('applyAndClose').onclick=closeFilters;$('resetFilters').onclick=$('clearMapFilters').onclick=clearFilters;$('closeDialog').onclick=closeDialog;$('modalBackdrop').addEventListener('click',e=>{if(e.target===$('modalBackdrop'))closeDialog()});window.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDialog();closeFilters();}});document.querySelectorAll('[data-route]').forEach(b=>b.onclick=()=>route(b.dataset.route));document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{state.mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));renderMap();});$('mapFocus').onclick=()=>{state.view='regional';state.zoom=1.23;renderMap()};$('mapWhole').onclick=()=>{state.view='full';state.zoom=1;renderMap()};$('mapZoomIn').onclick=()=>{state.zoom=clamp(state.zoom*1.25,1,2.2);renderMap()};$('mapZoomOut').onclick=()=>{state.zoom=clamp(state.zoom/1.25,1,2.2);renderMap()};$('layerSites').onchange=e=>{state.layers.sites=e.target.checked;renderMap()};$('layerSpots').onchange=e=>{state.layers.spots=e.target.checked;renderMap()};$('layerServices').onchange=e=>{state.layers.services=e.target.checked;renderMap()};$('viewRanking').onclick=rankingDialog;$('viewPlan').onclick=planDialog;$('downloadPack').onclick=downloadPack;$('offlineMore').onclick=downloadPackMenu;$('methodologyLink').onclick=methodologyDialog;window.addEventListener('online',updateNetwork);window.addEventListener('offline',updateNetwork);if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').then(updateNetwork).catch(err=>console.warn('Offline cache unavailable:',err)));navigator.serviceWorker.addEventListener('controllerchange',updateNetwork);}updateNetwork();renderAll();filterRows();}
+if(!records.length){$('profileContent').innerHTML='<div class="empty-state">Core records unavailable. Verify data.js is included beside index.html.</div>';console.error('NT Connect embedded dataset missing');}else bind();
+})();

@@ -13,8 +13,7 @@
     "completion_date": "Mar, 2023",
     "solution_category": "N/A",
     "longitude": 134.57347,
-    "latitude": -25.58498,
-    "nbn_fixedline_2024": false
+    "latitude": -25.58498
   },
   {
     "mbsp_id": "MBSP-NT-002",
@@ -30,8 +29,7 @@
     "completion_date": "Jan, 2021",
     "solution_category": "N/A",
     "longitude": 132.56934,
-    "latitude": -25.12909,
-    "nbn_fixedline_2024": false
+    "latitude": -25.12909
   },
   {
     "mbsp_id": "MBSP-NT-003",
@@ -47,8 +45,7 @@
     "completion_date": "Jun, 2017",
     "solution_category": "N/A",
     "longitude": 132.57395,
-    "latitude": -11.14787,
-    "nbn_fixedline_2024": false
+    "latitude": -11.14787
   },
   {
     "mbsp_id": "MBSP-NT-004",
@@ -64,8 +61,7 @@
     "completion_date": "Sep, 2018",
     "solution_category": "N/A",
     "longitude": 131.2774,
-    "latitude": -23.2545,
-    "nbn_fixedline_2024": false
+    "latitude": -23.2545
   },
   {
     "mbsp_id": "MBSP-NT-005",
@@ -81,8 +77,7 @@
     "completion_date": "Jun, 2018",
     "solution_category": "N/A",
     "longitude": 133.08763,
-    "latitude": -24.12448,
-    "nbn_fixedline_2024": false
+    "latitude": -24.12448
   },
   {
     "mbsp_id": "MBSP2-NT-002",
@@ -98,8 +93,7 @@
     "completion_date": "Jan, 2022",
     "solution_category": "N/A",
     "longitude": 131.675696,
-    "latitude": -12.899765,
-    "nbn_fixedline_2024": false
+    "latitude": -12.899765
   },
   {
     "mbsp_id": "MBSP2-NT-003",
@@ -115,8 +109,7 @@
     "completion_date": "Apr, 2018",
     "solution_category": "N/A",
     "longitude": 130.62062,
-    "latitude": -12.81878,
-    "nbn_fixedline_2024": false
+    "latitude": -12.81878
   },
   {
     "mbsp_id": "MBSP2-NT-004",
@@ -132,8 +125,7 @@
     "completion_date": "Oct, 2017",
     "solution_category": "N/A",
     "longitude": 135.7265,
-    "latitude": -16.6834,
-    "nbn_fixedline_2024": false
+    "latitude": -16.6834
   },
   {
     "mbsp_id": "MBSP2-NT-005",
@@ -149,8 +141,7 @@
     "completion_date": "Jun, 2018",
     "solution_category": "N/A",
     "longitude": 131.14354,
-    "latitude": -12.98565,
-    "nbn_fixedline_2024": false
+    "latitude": -12.98565
   },
   {
     "mbsp_id": "MBSP2-NT-006",
@@ -166,8 +157,7 @@
     "completion_date": "Sep, 2017",
     "solution_category": "N/A",
     "longitude": 134.2227,
-    "latitude": -20.6409,
-    "nbn_fixedline_2024": false
+    "latitude": -20.6409
   },
   {
     "mbsp_id": "MBSP2-NT-007",
@@ -183,8 +173,7 @@
     "completion_date": "Jul, 2019",
     "solution_category": "N/A",
     "longitude": 130.793267,
-    "latitude": -13.109367,
-    "nbn_fixedline_2024": false
+    "latitude": -13.109367
   },
   {
     "mbsp_id": "MBSP2-NT-008",
@@ -200,8 +189,7 @@
     "completion_date": "Sep, 2017",
     "solution_category": "N/A",
     "longitude": 134.24121,
-    "latitude": -22.96838,
-    "nbn_fixedline_2024": false
+    "latitude": -22.96838
   },
   {
     "mbsp_id": "MBSP2-NT-009",
@@ -217,8 +205,7 @@
     "completion_date": "Sep, 2017",
     "solution_category": "N/A",
     "longitude": 131.5116,
-    "latitude": -24.251,
-    "nbn_fixedline_2024": false
+    "latitude": -24.251
   },
   {
     "mbsp_id": "MBSP2-NT-010",
@@ -234,8 +221,7 @@
     "completion_date": "Sep, 2017",
     "solution_category": "N/A",
     "longitude": 131.8179,
-    "latitude": -24.4053,
-    "nbn_fixedline_2024": false
+    "latitude": -24.4053
   },
   {
     "mbsp_id": "MBSP2-NT-011",
@@ -251,8 +237,7 @@
     "completion_date": "Dec, 2021",
     "solution_category": "N/A",
     "longitude": 130.69571,
-    "latitude": -13.12293,
-    "nbn_fixedline_2024": false
+    "latitude": -13.12293
   },
   {
     "mbsp_id": "MBSP2-NT-012",
@@ -268,8 +253,7 @@
     "completion_date": "Oct, 2017",
     "solution_category": "N/A",
     "longitude": 132.2201,
-    "latitude": -13.6061,
-    "nbn_fixedline_2024": false
+    "latitude": -13.6061
   },
   {
     "mbsp_id": "MBSP2-NT-013",
@@ -285,8 +269,7 @@
     "completion_date": "Sep, 2017",
     "solution_category": "N/A",
     "longitude": 133.45876,
-    "latitude": -24.34009,
-    "nbn_fixedline_2024": false
+    "latitude": -24.34009
   },
   {
     "mbsp_id": "MBSP2-NT-014",
@@ -302,8 +285,7 @@
     "completion_date": "Oct, 2017",
     "solution_category": "N/A",
     "longitude": 131.1289,
-    "latitude": -15.6176,
-    "nbn_fixedline_2024": false
+    "latitude": -15.6176
   },
   {
     "mbsp_id": "MBSP2-NT-015",
@@ -319,8 +301,7 @@
     "completion_date": "Jul, 2019",
     "solution_category": "N/A",
     "longitude": 130.679087,
-    "latitude": -13.164608,
-    "nbn_fixedline_2024": false
+    "latitude": -13.164608
   },
   {
     "mbsp_id": "MBSP2-NT-016",
@@ -336,8 +317,7 @@
     "completion_date": "Jul, 2022",
     "solution_category": "N/A",
     "longitude": 130.643636,
-    "latitude": -16.486946,
-    "nbn_fixedline_2024": false
+    "latitude": -16.486946
   },
   {
     "mbsp_id": "MBSP4-NT-001",
@@ -353,8 +333,7 @@
     "completion_date": "Feb, 2022",
     "solution_category": "N/A",
     "longitude": 134.68709,
-    "latitude": -23.45604,
-    "nbn_fixedline_2024": false
+    "latitude": -23.45604
   },
   {
     "mbsp_id": "MBSP4-NT-002",
@@ -370,8 +349,7 @@
     "completion_date": "Jun, 2022",
     "solution_category": "N/A",
     "longitude": 133.8146,
-    "latitude": -24.86252,
-    "nbn_fixedline_2024": false
+    "latitude": -24.86252
   },
   {
     "mbsp_id": "MBSP4-NT-003",
@@ -387,8 +365,7 @@
     "completion_date": "Jun, 2022",
     "solution_category": "N/A",
     "longitude": 134.2694,
-    "latitude": -20.5558,
-    "nbn_fixedline_2024": false
+    "latitude": -20.5558
   },
   {
     "mbsp_id": "MBSP4-NT-004",
@@ -404,8 +381,7 @@
     "completion_date": "Sep, 2020",
     "solution_category": "N/A",
     "longitude": 133.41264,
-    "latitude": -16.67964,
-    "nbn_fixedline_2024": false
+    "latitude": -16.67964
   },
   {
     "mbsp_id": "MBSP4-NT-005",
@@ -421,8 +397,7 @@
     "completion_date": "Jan, 2022",
     "solution_category": "N/A",
     "longitude": 132.18641,
-    "latitude": -14.17813,
-    "nbn_fixedline_2024": false
+    "latitude": -14.17813
   },
   {
     "mbsp_id": "MBSP4-NT-006",
@@ -438,8 +413,7 @@
     "completion_date": "Jun, 2022",
     "solution_category": "N/A",
     "longitude": 133.0742,
-    "latitude": -23.788106,
-    "nbn_fixedline_2024": false
+    "latitude": -23.788106
   },
   {
     "mbsp_id": "MBSP4-NT-007",
@@ -455,8 +429,7 @@
     "completion_date": "Sep, 2020",
     "solution_category": "N/A",
     "longitude": 133.2149,
-    "latitude": -15.5742,
-    "nbn_fixedline_2024": false
+    "latitude": -15.5742
   },
   {
     "mbsp_id": "MBSP4-NT-008",
@@ -472,8 +445,7 @@
     "completion_date": "Jun, 2022",
     "solution_category": "N/A",
     "longitude": 132.7399,
-    "latitude": -24.0562,
-    "nbn_fixedline_2024": false
+    "latitude": -24.0562
   },
   {
     "mbsp_id": "MBSP4-NT-009",
@@ -489,8 +461,7 @@
     "completion_date": "Jun, 2022",
     "solution_category": "N/A",
     "longitude": 131.728776,
-    "latitude": -12.481606,
-    "nbn_fixedline_2024": false
+    "latitude": -12.481606
   },
   {
     "mbsp_id": "MBSP4-NT-010",
@@ -506,8 +477,7 @@
     "completion_date": "Feb, 2022",
     "solution_category": "N/A",
     "longitude": 137.974,
-    "latitude": -22.2742,
-    "nbn_fixedline_2024": false
+    "latitude": -22.2742
   },
   {
     "mbsp_id": "MBSP4-NT-011",
@@ -523,8 +493,7 @@
     "completion_date": "Jun, 2022",
     "solution_category": "N/A",
     "longitude": 134.396939,
-    "latitude": -23.522509,
-    "nbn_fixedline_2024": false
+    "latitude": -23.522509
   },
   {
     "mbsp_id": "MBSP4-NT-013",
@@ -540,8 +509,7 @@
     "completion_date": "Jun, 2023",
     "solution_category": "N/A",
     "longitude": 133.633583,
-    "latitude": -24.321417,
-    "nbn_fixedline_2024": false
+    "latitude": -24.321417
   },
   {
     "mbsp_id": "MBSP5-NT-001",
@@ -557,8 +525,7 @@
     "completion_date": "Jun, 2023",
     "solution_category": "N/A",
     "longitude": 133.221,
-    "latitude": -14.9542,
-    "nbn_fixedline_2024": false
+    "latitude": -14.9542
   },
   {
     "mbsp_id": "MBSP5-NT-003",
@@ -574,8 +541,7 @@
     "completion_date": "Dec, 2022",
     "solution_category": "N/A",
     "longitude": 132.958422,
-    "latitude": -12.426536,
-    "nbn_fixedline_2024": false
+    "latitude": -12.426536
   },
   {
     "mbsp_id": "MBSP5-NT-004",
@@ -591,8 +557,7 @@
     "completion_date": "Jun, 2024",
     "solution_category": "N/A",
     "longitude": 131.06841,
-    "latitude": -12.27083,
-    "nbn_fixedline_2024": false
+    "latitude": -12.27083
   },
   {
     "mbsp_id": "MBSP5-NT-005",
@@ -608,8 +573,7 @@
     "completion_date": "Jun, 2023",
     "solution_category": "N/A",
     "longitude": 129.106028,
-    "latitude": -15.762983,
-    "nbn_fixedline_2024": false
+    "latitude": -15.762983
   },
   {
     "mbsp_id": "MBSP5-NT-006",
@@ -625,8 +589,7 @@
     "completion_date": "Jun, 2023",
     "solution_category": "N/A",
     "longitude": 129.07229,
-    "latitude": -15.89107,
-    "nbn_fixedline_2024": false
+    "latitude": -15.89107
   },
   {
     "mbsp_id": "MBSP5-NT-007",
@@ -642,8 +605,7 @@
     "completion_date": "Dec, 2022",
     "solution_category": "N/A",
     "longitude": 132.51367,
-    "latitude": -23.5863,
-    "nbn_fixedline_2024": false
+    "latitude": -23.5863
   },
   {
     "mbsp_id": "MBSP5-NT-008",
@@ -659,8 +621,7 @@
     "completion_date": "Apr, 2023",
     "solution_category": "N/A",
     "longitude": 130.814953,
-    "latitude": -13.247436,
-    "nbn_fixedline_2024": false
+    "latitude": -13.247436
   },
   {
     "mbsp_id": "MBSP5-NT-011",
@@ -676,8 +637,7 @@
     "completion_date": "Jun, 2023",
     "solution_category": "N/A",
     "longitude": 133.9967,
-    "latitude": -21.5077,
-    "nbn_fixedline_2024": false
+    "latitude": -21.5077
   },
   {
     "mbsp_id": "MBSP5-NT-012",
@@ -693,8 +653,7 @@
     "completion_date": "Jun, 2022",
     "solution_category": "N/A",
     "longitude": 131.351056,
-    "latitude": -13.787264,
-    "nbn_fixedline_2024": false
+    "latitude": -13.787264
   },
   {
     "mbsp_id": "MBSP7-NT-001",
@@ -710,8 +669,7 @@
     "completion_date": "<Null>",
     "solution_category": "Mobile Black Spot",
     "longitude": 134.030303,
-    "latitude": -18.792031,
-    "nbn_fixedline_2024": false
+    "latitude": -18.792031
   },
   {
     "mbsp_id": "MBSP7-NT-002",
@@ -727,8 +685,7 @@
     "completion_date": "<Null>",
     "solution_category": "Mobile Black Spot",
     "longitude": 136.48531,
-    "latitude": -15.932242,
-    "nbn_fixedline_2024": false
+    "latitude": -15.932242
   },
   {
     "mbsp_id": "MBSP7-NT-003",
@@ -744,8 +701,7 @@
     "completion_date": "<Null>",
     "solution_category": "First Nations",
     "longitude": 134.4036,
-    "latitude": -21.23,
-    "nbn_fixedline_2024": false
+    "latitude": -21.23
   },
   {
     "mbsp_id": "MBSP7-NT-004",
@@ -761,8 +717,7 @@
     "completion_date": "<Null>",
     "solution_category": "Mobile Black Spot",
     "longitude": 133.794743,
-    "latitude": -18.317826,
-    "nbn_fixedline_2024": false
+    "latitude": -18.317826
   },
   {
     "mbsp_id": "MBSP7-NT-005",
@@ -778,8 +733,7 @@
     "completion_date": "<Null>",
     "solution_category": "First Nations",
     "longitude": 134.567253,
-    "latitude": -14.709618,
-    "nbn_fixedline_2024": false
+    "latitude": -14.709618
   },
   {
     "mbsp_id": "MBSP7-NT-006",
@@ -795,8 +749,7 @@
     "completion_date": "<Null>",
     "solution_category": "Mobile Black Spot",
     "longitude": 131.129321,
-    "latitude": -15.617083,
-    "nbn_fixedline_2024": false
+    "latitude": -15.617083
   },
   {
     "mbsp_id": "MBSP7-NT-007",
@@ -812,7 +765,6 @@
     "completion_date": "<Null>",
     "solution_category": "First Nations",
     "longitude": 136.22743,
-    "latitude": -13.19958,
-    "nbn_fixedline_2024": false
+    "latitude": -13.19958
   }
 ]
