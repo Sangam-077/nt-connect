@@ -22,3 +22,5 @@
 .mode-tabs{flex-wrap:wrap}
 .mode-tabs button{white-space:nowrap}
 @media(max-width:750px){.seasonal-number{font-size:24px}.map-toolbar .mode-tabs{overflow:auto;justify-content:flex-start}.map-toolbar .mode-tabs button{flex:0 0 auto}}
+
+.place-label{pointer-events:none}
